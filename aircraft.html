@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gulfstream G550 | Azure Seas Limited 碧海公司</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0A1E3C;
+            --navy-light: #132d54;
+            --navy-dark: #061529;
+            --gold: #D4AF37;
+            --gold-light: #E5C76B;
+            --gold-dark: #B8962E;
+            --white: #FFFFFF;
+            --gray: #8A9AAF;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lato', 'Noto Sans SC', sans-serif;
+            background: var(--navy-dark);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Sans SC', serif;
+            font-weight: 500;
+        }
+        a { text-decoration: none; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 30, 60, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+        }
+        .logo-text span {
+            display: block;
+            font-size: 0.7rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+        .nav-links a {
+            color: var(--white);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .lang-switch span { font-size: 0.8rem; }
+        .lang-switch .active { color: var(--gold); }
+
+        /* Aircraft Hero */
+        .aircraft-hero {
+            padding: 10rem 4% 5rem;
+            text-align: center;
+            background: 
+                linear-gradient(135deg, rgba(10, 30, 60, 0.9) 0%, rgba(10, 30, 60, 0.6) 100%),
+                url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop') center/cover;
+            position: relative;
+        }
+        .section-label {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .aircraft-hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            margin-bottom: 1rem;
+        }
+        .aircraft-hero p {
+            font-size: 1.2rem;
+            color: var(--gray);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            background: var(--navy);
+            padding: 3rem 4%;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .stats-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        .stat-item .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--gold);
+        }
+        .stat-item .stat-label {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gray);
+        }
+
+        /* Overview Section */
+        .overview {
+            padding: 6rem 4%;
+            background: var(--navy-dark);
+        }
+        .overview-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .overview-content h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 1.5rem;
+        }
+        .overview-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        .overview-image img {
+            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Specifications */
+        .specs {
+            padding: 6rem 4%;
+            background: var(--navy);
+        }
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        .specs-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .spec-category {
+            background: var(--navy-dark);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+        }
+        .spec-category h3 {
+            font-size: 1.2rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .spec-row .label { color: var(--gray); font-size: 0.9rem; }
+        .spec-row .value { font-weight: 500; }
+
+        /* Gallery */
+        .gallery {
+            padding: 6rem 4%;
+            background: var(--navy-dark);
+        }
+        .gallery-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 250px 250px;
+            gap: 1.5rem;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-item:first-child {
+            grid-row: span 2;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            font-size: 0.9rem;
+        }
+
+        /* Inquiry Form */
+        .inquiry {
+            padding: 6rem 4%;
+            background: var(--navy);
+        }
+        .inquiry-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+        }
+        .inquiry-info h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .inquiry-info > p {
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        .contact-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .contact-item .icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .contact-item h4 {
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+        .contact-item a, .contact-item span {
+            color: var(--white);
+            font-size: 1rem;
+        }
+
+        /* Form Styles */
+        .inquiry-form {
+            background: var(--navy-dark);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem;
+        }
+        .form-header {
+            margin-bottom: 2rem;
+        }
+        .form-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .form-header p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--navy);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--white);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+        .form-group select {
+            cursor: pointer;
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .btn {
+            display: inline-flex;
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.4s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+        .btn-primary:hover {
+            background: var(--gold-light);
+        }
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+        .form-note {
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 4% 2rem;
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            max-width: 300px;
+        }
+        .footer-links h4 {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+        .footer-links a {
+            display: block;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .footer-links a:hover { color: var(--white); }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-bottom p { font-size: 0.85rem; color: var(--gray); }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        .social-links a:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .overview-grid { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .gallery-item:first-child { grid-row: auto; }
+            .inquiry-wrapper { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">碧</div>
+            <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="services.html" data-en="Services" data-cn="服务">Services</a>
+            <a href="aircraft.html" class="active" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+            <a href="about.html" data-en="About" data-cn="关于我们">About</a>
+            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+            <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span class="active" id="lang-en">EN</span>
+                <span>|</span>
+                <span id="lang-cn">中文</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Aircraft Hero -->
+    <header class="aircraft-hero">
+        <div class="section-label" data-en="Our Flagship" data-cn="我们的旗舰">Our Flagship</div>
+        <h1>Gulfstream G550</h1>
+        <p data-en="The gold standard in ultra-long-range business aviation" data-cn="超远程公务航空的黄金标准">The gold standard in ultra-long-range business aviation</p>
+    </header>
+
+    <!-- Quick Stats -->
+    <section class="quick-stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-value">12,500 km</div>
+                <div class="stat-label" data-en="Range" data-cn="航程">Range</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">Mach 0.87</div>
+                <div class="stat-label" data-en="Max Speed" data-cn="最大速度">Max Speed</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">14-19</div>
+                <div class="stat-label" data-en="Passengers" data-cn="载客量">Passengers</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">12+ hrs</div>
+                <div class="stat-label" data-en="Flight Time" data-cn="飞行时间">Flight Time</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview -->
+    <section class="overview">
+        <div class="overview-grid">
+            <div class="overview-content">
+                <div class="section-label" data-en="Overview" data-cn="概述">Overview</div>
+                <h2 data-en="Experience Unmatched Excellence" data-cn="体验无与伦比的卓越">Experience Unmatched Excellence</h2>
+                <p data-en="The Gulfstream G550 stands as the benchmark for large-cabin, ultra-long-range business aircraft. Capable of connecting Hong Kong to London, New York to Dubai, or Tokyo to Paris nonstop, the G550 eliminates the constraints of commercial aviation." data-cn="湾流G550是大型机舱超远程公务机的标杆。能够直飞香港到伦敦、纽约到迪拜或东京到巴黎，G550消除了商业航空的限制。">The Gulfstream G550 stands as the benchmark for large-cabin, ultra-long-range business aircraft. Capable of connecting Hong Kong to London, New York to Dubai, or Tokyo to Paris nonstop, the G550 eliminates the constraints of commercial aviation.</p>
+                <p data-en="Our meticulously maintained aircraft features a cabin environment that rivals the finest hotels, with advanced air purification, low cabin altitude, and 100% fresh air circulation." data-cn="我们精心维护的飞机拥有媲美顶级酒店的机舱环境，配备先进的空气净化系统、低机舱高度和100%新鲜空气循环。">Our meticulously maintained aircraft features a cabin environment that rivals the finest hotels, with advanced air purification, low cabin altitude, and 100% fresh air circulation.</p>
+            </div>
+            <div class="overview-image">
+                <img src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?q=80&w=2662&auto=format&fit=crop" alt="G550 Interior">
+            </div>
+        </div>
+    </section>
+
+    <!-- Specifications -->
+    <section class="specs">
+        <div class="section-header">
+            <div class="section-label" data-en="Technical Data" data-cn="技术数据">Technical Data</div>
+            <h2 class="section-title" data-en="Detailed Specifications" data-cn="详细规格">Detailed Specifications</h2>
+        </div>
+        <div class="specs-grid">
+            <div class="spec-category">
+                <h3 data-en="Performance" data-cn="性能">Performance</h3>
+                <div class="spec-row">
+                    <span class="label" data-en="Max Range" data-cn="最大航程">Max Range</span>
+                    <span class="value">12,501 km</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="High-Speed Cruise" data-cn="高速巡航">High-Speed Cruise</span>
+                    <span class="value">Mach 0.87</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Long-Range Cruise" data-cn="远程巡航">Long-Range Cruise</span>
+                    <span class="value">Mach 0.80</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Max Altitude" data-cn="最大高度">Max Altitude</span>
+                    <span class="value">15,545 m</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Takeoff Distance" data-cn="起飞距离">Takeoff Distance</span>
+                    <span class="value">1,801 m</span>
+                </div>
+            </div>
+            <div class="spec-category">
+                <h3 data-en="Cabin" data-cn="机舱">Cabin</h3>
+                <div class="spec-row">
+                    <span class="label" data-en="Length" data-cn="长度">Length</span>
+                    <span class="value">13.25 m</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Width" data-cn="宽度">Width</span>
+                    <span class="value">2.24 m</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Height" data-cn="高度">Height</span>
+                    <span class="value">1.88 m</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Passengers" data-cn="载客">Passengers</span>
+                    <span class="value">14-19</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Baggage" data-cn="行李">Baggage</span>
+                    <span class="value">2.26 m³</span>
+                </div>
+            </div>
+            <div class="spec-category">
+                <h3 data-en="Amenities" data-cn="设施">Amenities</h3>
+                <div class="spec-row">
+                    <span class="label" data-en="Cabin Zones" data-cn="区域">Cabin Zones</span>
+                    <span class="value" data-en="4 Areas" data-cn="4个区域">4 Areas</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="WiFi" data-cn="网络">WiFi</span>
+                    <span class="value" data-en="High-Speed" data-cn="高速">High-Speed</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Entertainment" data-cn="娱乐">Entertainment</span>
+                    <span class="value" data-en="Multi-screen" data-cn="多屏">Multi-screen</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Galley" data-cn="厨房">Galley</span>
+                    <span class="value" data-en="Full-service" data-cn="全服务">Full-service</span>
+                </div>
+                <div class="spec-row">
+                    <span class="label" data-en="Lavatory" data-cn="洗手间">Lavatory</span>
+                    <span class="value">2</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery">
+        <div class="section-header">
+            <div class="section-label" data-en="Interior" data-cn="内部">Interior</div>
+            <h2 class="section-title" data-en="Cabin Experience" data-cn="机舱体验">Cabin Experience</h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop" alt="Main Cabin">
+                <div class="caption" data-en="Main Cabin" data-cn="主舱">Main Cabin</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?q=80&w=2662&auto=format&fit=crop" alt="Seating">
+                <div class="caption" data-en="Executive Seating" data-cn="行政座椅">Executive Seating</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2574&auto=format&fit=crop" alt="Conference">
+                <div class="caption" data-en="Conference Area" data-cn="会议区">Conference Area</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=2573&auto=format&fit=crop" alt="Rest Area">
+                <div class="caption" data-en="Rest Area" data-cn="休息区">Rest Area</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inquiry Form -->
+    <section class="inquiry" id="inquiry">
+        <div class="inquiry-wrapper">
+            <div class="inquiry-info">
+                <div class="section-label" data-en="Book Now" data-cn="立即预订">Book Now</div>
+                <h2 data-en="Request a Charter Quote" data-cn="请求包机报价">Request a Charter Quote</h2>
+                <p data-en="Complete the form and our team will provide a customized quote within 24 hours. All inquiries are handled with complete confidentiality." data-cn="填写表格，我们的团队将在24小时内提供定制报价。所有咨询均严格保密。">Complete the form and our team will provide a customized quote within 24 hours. All inquiries are handled with complete confidentiality.</p>
+                
+                <div class="contact-item">
+                    <div class="icon">📞</div>
+                    <div>
+                        <h4 data-en="24/7 Hotline" data-cn="24小时热线">24/7 Hotline</h4>
+                        <a href="tel:+85212345678">+852 1234 5678</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">✉️</div>
+                    <div>
+                        <h4 data-en="Email" data-cn="邮箱">Email</h4>
+                        <a href="mailto:charter@azureseas.com">charter@azureseas.com</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon">💬</div>
+                    <div>
+                        <h4 data-en="WeChat" data-cn="微信">WeChat</h4>
+                        <span>AzureSeasHK</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inquiry-form">
+                <div class="form-header">
+                    <h3 data-en="Charter Inquiry Form" data-cn="包机咨询表">Charter Inquiry Form</h3>
+                    <p data-en="Fill in your details and requirements" data-cn="填写您的详细信息和需求">Fill in your details and requirements</p>
+                </div>
+                <form id="charterForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="First Name *" data-cn="名 *">First Name *</label>
+                            <input type="text" name="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Last Name *" data-cn="姓 *">Last Name *</label>
+                            <input type="text" name="lastName" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Email *" data-cn="邮箱 *">Email *</label>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Phone *" data-cn="电话 *">Phone *</label>
+                            <input type="tel" name="phone" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Departure City" data-cn="出发城市">Departure City</label>
+                            <input type="text" name="departure" placeholder="e.g. Hong Kong">
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Destination City" data-cn="目的地">Destination City</label>
+                            <input type="text" name="destination" placeholder="e.g. London">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-en="Preferred Date" data-cn="首选日期">Preferred Date</label>
+                            <input type="date" name="date">
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Passengers" data-cn="乘客人数">Passengers</label>
+                            <select name="passengers">
+                                <option value="1-4">1-4</option>
+                                <option value="5-8">5-8</option>
+                                <option value="9-12">9-12</option>
+                                <option value="13+">13+</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Service Type" data-cn="服务类型">Service Type</label>
+                        <select name="serviceType">
+                            <option value="one-way" data-en="One-Way Charter" data-cn="单程包机">One-Way Charter</option>
+                            <option value="round-trip" data-en="Round-Trip Charter" data-cn="往返包机">Round-Trip Charter</option>
+                            <option value="jet-card" data-en="Jet Card Inquiry" data-cn="飞行卡咨询">Jet Card Inquiry</option>
+                            <option value="other" data-en="Other" data-cn="其他">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label data-en="Additional Requirements" data-cn="其他需求">Additional Requirements</label>
+                        <textarea name="requirements" placeholder="Special catering, ground transportation, etc."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full" data-en="Submit Inquiry" data-cn="提交咨询">Submit Inquiry</button>
+                    <p class="form-note" data-en="We will respond via Jet-Bay system within 24 hours." data-cn="我们将通过Jet-Bay系统在24小时内回复。">We will respond via Jet-Bay system within 24 hours.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">碧</div>
+                    <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+                </div>
+                <p data-en="Your trusted partner for premium aviation services." data-cn="您的高端航空服务可信赖伙伴。">Your trusted partner for premium aviation services.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Services" data-cn="服务">Services</h4>
+                <a href="services.html" data-en="Private Charter" data-cn="私人包机">Private Charter</a>
+                <a href="aircraft.html" data-en="Jet Card" data-cn="飞行卡">Jet Card</a>
+                <a href="services.html" data-en="Aircraft Sales" data-cn="飞机销售">Aircraft Sales</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Company" data-cn="公司">Company</h4>
+                <a href="about.html" data-en="About Us" data-cn="关于我们">About Us</a>
+                <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+                <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Legal" data-cn="法律">Legal</h4>
+                <a href="#" data-en="Privacy" data-cn="隐私">Privacy</a>
+                <a href="#" data-en="Terms" data-cn="条款">Terms</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Azure Seas Limited 碧海公司</p>
+            <div class="social-links">
+                <a href="#">Li</a>
+                <a href="#">In</a>
+                <a href="#">Wx</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+            document.getElementById('lang-cn').classList.toggle('active', currentLang === 'cn');
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-cn');
+            });
+        }
+
+        document.getElementById('charterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert(currentLang === 'en' 
+                ? 'Thank you! We will contact you within 24 hours.' 
+                : '谢谢！我们将在24小时内与您联系。');
+        });
+    </script>
+</body>
+</html>

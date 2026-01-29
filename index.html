@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure Seas Limited 碧海公司 | Premium Aviation Services</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">碧</div>
+            <div class="logo-text">
+                Azure Seas
+                <span>碧海公司</span>
+            </div>
+        </a>
+        <div class="nav-links">
+            <a href="services.html" data-en="Services" data-cn="服务">Services</a>
+            <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+            <a href="about.html" data-en="About" data-cn="关于我们">About</a>
+            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+            <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span class="active" id="lang-en">EN</span>
+                <span>|</span>
+                <span id="lang-cn">中文</span>
+            </div>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMobileMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" data-en="Home" data-cn="首页">Home</a>
+        <a href="services.html" data-en="Services" data-cn="服务">Services</a>
+        <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+        <a href="about.html" data-en="About" data-cn="关于我们">About</a>
+        <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+        <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <span class="section-label" data-en="Premium Aviation Services" data-cn="高端航空服务">Premium Aviation Services</span>
+            <h1 data-en="Your Journey, Elevated" data-cn="您的旅程，卓越升华">Your Journey, Elevated</h1>
+            <p data-en="Experience the pinnacle of private aviation with Azure Seas. From executive charter services to aircraft acquisition, we deliver excellence across the Greater Bay Area and beyond." data-cn="与碧海公司一起体验私人航空的巅峰。从行政包机服务到飞机收购，我们在大湾区及更广泛地区提供卓越服务。">
+                Experience the pinnacle of private aviation with Azure Seas. From executive charter services to aircraft acquisition, we deliver excellence across the Greater Bay Area and beyond.
+            </p>
+            <div class="hero-buttons">
+                <a href="aircraft.html#inquiry-form" class="btn btn-primary" data-en="Request a Quote" data-cn="获取报价">Request a Quote</a>
+                <a href="services.html" class="btn btn-outline" data-en="Explore Services" data-cn="探索服务">Explore Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-bar-grid">
+                <div class="stat-item">
+                    <span class="stat-number">G550</span>
+                    <span class="stat-label" data-en="Flagship Aircraft" data-cn="旗舰飞机">Flagship Aircraft</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label" data-en="Charter Flights" data-cn="包机飞行">Charter Flights</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label" data-en="Availability" data-cn="全天候服务">Availability</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label" data-en="Client Satisfaction" data-cn="客户满意度">Client Satisfaction</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label" data-en="What We Offer" data-cn="我们的服务">What We Offer</span>
+                <h2 class="section-title" data-en="Premium Services" data-cn="高端服务">Premium Services</h2>
+                <p class="section-desc" data-en="Comprehensive aviation solutions tailored to your needs" data-cn="为您量身定制的全方位航空解决方案">Comprehensive aviation solutions tailored to your needs</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">✈️</div>
+                    <h3 data-en="Private Charter" data-cn="私人包机">Private Charter</h3>
+                    <p data-en="On-demand access to luxury aircraft. Fly on your schedule with complete privacy and comfort." data-cn="随时享用豪华飞机。按照您的时间表飞行，享受完全的私密与舒适。">On-demand access to luxury aircraft. Fly on your schedule with complete privacy and comfort.</p>
+                    <a href="services.html#charter" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💳</div>
+                    <h3 data-en="Jet Card Programs" data-cn="飞行小时卡">Jet Card Programs</h3>
+                    <p data-en="Flexible flight hour packages on our G550. Guaranteed availability and fixed hourly rates." data-cn="我们G550的灵活飞行小时套餐。保证可用性和固定小时费率。">Flexible flight hour packages on our G550. Guaranteed availability and fixed hourly rates.</p>
+                    <a href="services.html#jetcard" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛩️</div>
+                    <h3 data-en="Aircraft Brokerage" data-cn="飞机经纪">Aircraft Brokerage</h3>
+                    <p data-en="Expert guidance through aircraft transactions. From sourcing to closing, we protect your interests." data-cn="飞机交易的专家指导。从采购到交易完成，我们保护您的利益。">Expert guidance through aircraft transactions. From sourcing to closing, we protect your interests.</p>
+                    <a href="services.html#brokerage" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⛵</div>
+                    <h3 data-en="Yacht Consultancy" data-cn="游艇咨询">Yacht Consultancy</h3>
+                    <p data-en="Extending our expertise to the seas. Premium yacht charter and acquisition advisory services." data-cn="将我们的专业知识延伸到海上。高端游艇包租和收购咨询服务。">Extending our expertise to the seas. Premium yacht charter and acquisition advisory services.</p>
+                    <a href="services.html" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Aircraft -->
+    <section class="aircraft-overview" style="background: var(--gray-100);">
+        <div class="container">
+            <div class="overview-grid">
+                <div class="overview-content">
+                    <span class="section-label" data-en="Featured Aircraft" data-cn="特色飞机">Featured Aircraft</span>
+                    <h2 data-en="Gulfstream G550" data-cn="湾流G550">Gulfstream G550</h2>
+                    <p data-en="The gold standard in ultra-long-range business aviation. Our meticulously maintained G550 offers unparalleled comfort, range, and reliability for the most discerning travelers." data-cn="超远程公务航空的黄金标准。我们精心维护的G550为最挑剔的旅客提供无与伦比的舒适度、航程和可靠性。">
+                        The gold standard in ultra-long-range business aviation. Our meticulously maintained G550 offers unparalleled comfort, range, and reliability for the most discerning travelers.
+                    </p>
+                    <div class="mission-stats">
+                        <div class="mission-stat">
+                            <span class="stat-number">12,500km</span>
+                            <span class="stat-label" data-en="Range" data-cn="航程">Range</span>
+                        </div>
+                        <div class="mission-stat">
+                            <span class="stat-number">14-19</span>
+                            <span class="stat-label" data-en="Passengers" data-cn="载客量">Passengers</span>
+                        </div>
+                        <div class="mission-stat">
+                            <span class="stat-number">Mach 0.87</span>
+                            <span class="stat-label" data-en="Max Speed" data-cn="最大速度">Max Speed</span>
+                        </div>
+                    </div>
+                    <a href="aircraft.html" class="btn btn-primary" style="margin-top: 30px;" data-en="View Aircraft Details" data-cn="查看飞机详情">View Aircraft Details</a>
+                </div>
+                <div class="overview-image">
+                    <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop" alt="Gulfstream G550">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section style="padding: 100px 0;">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label" data-en="Testimonials" data-cn="客户评价">Testimonials</span>
+                <h2 class="section-title" data-en="Client Experiences" data-cn="客户体验">Client Experiences</h2>
+            </div>
+            <div class="case-testimonial" style="max-width: 800px; margin: 0 auto; border-left-color: var(--gold);">
+                <p data-en=""Azure Seas' expertise in both the aviation market and legal structuring made our aircraft acquisition seamless. Their attention to detail and commitment to our interests exceeded expectations."" data-cn=""碧海公司在航空市场和法律架构方面的专业知识使我们的飞机收购变得无缝衔接。他们对细节的关注和对我们利益的承诺超出了我们的期望。"">
+                    "Azure Seas' expertise in both the aviation market and legal structuring made our aircraft acquisition seamless. Their attention to detail and commitment to our interests exceeded expectations."
+                </p>
+                <span class="testimonial-author" data-en="— Private Investor, Hong Kong" data-cn="— 私人投资者，香港">— Private Investor, Hong Kong</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <span class="section-label" data-en="Start Your Journey" data-cn="开始您的旅程">Start Your Journey</span>
+        <h2 data-en="Ready to Experience Azure Seas?" data-cn="准备好体验碧海了吗？">Ready to Experience Azure Seas?</h2>
+        <p data-en="Contact our team for a personalized consultation. Available 24/7 for your aviation needs." data-cn="联系我们的团队进行个性化咨询。全天候为您的航空需求服务。">
+            Contact our team for a personalized consultation. Available 24/7 for your aviation needs.
+        </p>
+        <div class="cta-buttons">
+            <a href="contact.html" class="btn btn-primary" data-en="Contact Us" data-cn="联系我们">Contact Us</a>
+            <a href="cases.html" class="btn btn-outline" data-en="View Case Studies" data-cn="查看案例研究">View Case Studies</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="index.html" class="logo">
+                    <div class="logo-icon">碧</div>
+                    <div class="logo-text">
+                        Azure Seas
+                        <span>碧海公司</span>
+                    </div>
+                </a>
+                <p data-en="Your trusted partner for premium aviation services and luxury lifestyle solutions in the Greater Bay Area and beyond." data-cn="您在大湾区及更广泛地区的高端航空服务及奢华生活解决方案的可信赖伙伴。">
+                    Your trusted partner for premium aviation services and luxury lifestyle solutions in the Greater Bay Area and beyond.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Services" data-cn="服务">Services</h4>
+                <a href="services.html#charter" data-en="Private Charter" data-cn="私人包机">Private Charter</a>
+                <a href="services.html#jetcard" data-en="Jet Card" data-cn="飞行卡">Jet Card</a>
+                <a href="services.html#brokerage" data-en="Aircraft Sales" data-cn="飞机销售">Aircraft Sales</a>
+                <a href="services.html" data-en="Yacht Services" data-cn="游艇服务">Yacht Services</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Company" data-cn="公司">Company</h4>
+                <a href="about.html" data-en="About Us" data-cn="关于我们">About Us</a>
+                <a href="about.html#team" data-en="Our Team" data-cn="我们的团队">Our Team</a>
+                <a href="cases.html" data-en="Case Studies" data-cn="案例研究">Case Studies</a>
+                <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Legal" data-cn="法律">Legal</h4>
+                <a href="#" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</a>
+                <a href="#" data-en="Terms of Service" data-cn="服务条款">Terms of Service</a>
+                <a href="#" data-en="Disclaimer" data-cn="免责声明">Disclaimer</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Azure Seas Limited 碧海公司. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Li</a>
+                <a href="#">In</a>
+                <a href="#">Wx</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

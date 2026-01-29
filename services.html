@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Azure Seas Limited 碧海公司</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0A1E3C;
+            --navy-light: #132d54;
+            --navy-dark: #061529;
+            --gold: #D4AF37;
+            --gold-light: #E5C76B;
+            --gold-dark: #B8962E;
+            --white: #FFFFFF;
+            --gray: #8A9AAF;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lato', 'Noto Sans SC', sans-serif;
+            background: var(--navy-dark);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Sans SC', serif;
+            font-weight: 500;
+        }
+        a { text-decoration: none; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 30, 60, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .logo { display: flex; align-items: center; gap: 1rem; }
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--white);
+        }
+        .logo-text span {
+            display: block;
+            font-size: 0.7rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2.5rem; }
+        .nav-links a {
+            color: var(--white);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        .lang-switch {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+        }
+        .lang-switch span { font-size: 0.8rem; }
+        .lang-switch .active { color: var(--gold); }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 4% 5rem;
+            text-align: center;
+            background: 
+                linear-gradient(135deg, rgba(10, 30, 60, 0.95) 0%, rgba(10, 30, 60, 0.7) 100%),
+                url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop') center/cover;
+        }
+        .section-label {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Services Grid */
+        .services-section {
+            padding: 6rem 4%;
+            background: var(--navy-dark);
+        }
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+
+        /* Service Detail */
+        .service-detail {
+            max-width: 1200px;
+            margin: 0 auto 5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .service-detail.reverse { direction: rtl; }
+        .service-detail.reverse > * { direction: ltr; }
+        .service-content h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .service-content .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .service-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+        .service-features {
+            margin-bottom: 2rem;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: var(--gray);
+        }
+        .feature-item .check {
+            color: var(--gold);
+            font-weight: bold;
+        }
+        .service-image img {
+            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        /* Tier Cards */
+        .tier-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 3rem auto;
+        }
+        .tier-card {
+            background: var(--navy);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s;
+            position: relative;
+        }
+        .tier-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-10px);
+        }
+        .tier-card.featured {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+        .tier-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--navy);
+            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .tier-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .tier-hours {
+            font-size: 3rem;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+        }
+        .tier-hours span {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+        .tier-card ul {
+            list-style: none;
+            margin: 1.5rem 0;
+            text-align: left;
+        }
+        .tier-card li {
+            color: var(--gray);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+        }
+
+        /* Lifestyle Services */
+        .lifestyle-section {
+            padding: 6rem 4%;
+            background: var(--navy);
+        }
+        .lifestyle-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        .lifestyle-card {
+            background: var(--navy-dark);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s;
+        }
+        .lifestyle-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+        .lifestyle-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .lifestyle-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+        }
+        .lifestyle-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.4s;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 6rem 4%;
+            background: 
+                linear-gradient(135deg, rgba(10, 30, 60, 0.95) 0%, rgba(10, 30, 60, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1474302770737-173ee21bab63?q=80&w=2662&auto=format&fit=crop') center/cover;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 1rem;
+        }
+        .cta p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 4% 2rem;
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            max-width: 300px;
+        }
+        .footer-links h4 {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+        .footer-links a {
+            display: block;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .footer-links a:hover { color: var(--white); }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-bottom p { font-size: 0.85rem; color: var(--gray); }
+        .social-links { display: flex; gap: 1rem; }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+        .social-links a:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .service-detail { grid-template-columns: 1fr; }
+            .service-detail.reverse { direction: ltr; }
+            .tier-grid { grid-template-columns: 1fr; }
+            .lifestyle-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .lifestyle-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">碧</div>
+            <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="services.html" class="active" data-en="Services" data-cn="服务">Services</a>
+            <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+            <a href="about.html" data-en="About" data-cn="关于我们">About</a>
+            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+            <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span class="active" id="lang-en">EN</span>
+                <span>|</span>
+                <span id="lang-cn">中文</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="section-label" data-en="What We Offer" data-cn="我们的服务">What We Offer</div>
+        <h1 class="page-title" data-en="Our Services" data-cn="我们的服务">Our Services</h1>
+        <p class="page-subtitle" data-en="Comprehensive aviation and luxury lifestyle solutions" data-cn="全面的航空与奢华生活解决方案">Comprehensive aviation and luxury lifestyle solutions</p>
+    </header>
+
+    <!-- Aviation Services -->
+    <section class="services-section">
+        <div class="section-header">
+            <div class="section-label" data-en="Core Business" data-cn="核心业务">Core Business</div>
+            <h2 class="section-title" data-en="Aviation Services" data-cn="航空服务">Aviation Services</h2>
+        </div>
+
+        <!-- Private Charter -->
+        <div class="service-detail">
+            <div class="service-content">
+                <div class="service-icon">✈️</div>
+                <h3 data-en="Private Jet Charter" data-cn="私人飞机包机">Private Jet Charter</h3>
+                <p data-en="On-demand access to the world's finest aircraft. Fly on your schedule, to your destination, with complete privacy and comfort." data-cn="随时享用世界顶级飞机。按照您的时间表，飞往您的目的地，享受完全的私密与舒适。">On-demand access to the world's finest aircraft. Fly on your schedule, to your destination, with complete privacy and comfort.</p>
+                <div class="service-features">
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Access to G550 and partner fleet" data-cn="使用G550及合作机队">Access to G550 and partner fleet</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="24/7 booking availability" data-cn="全天候预订服务">24/7 booking availability</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Customized catering & amenities" data-cn="定制餐饮与设施">Customized catering & amenities</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="International flight permits handled" data-cn="国际飞行许可办理">International flight permits handled</span></div>
+                </div>
+                <a href="contact.html" class="btn btn-primary" data-en="Request Quote" data-cn="请求报价">Request Quote</a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop" alt="Private Charter">
+            </div>
+        </div>
+
+        <!-- Jet Card -->
+        <div class="service-detail reverse">
+            <div class="service-content">
+                <div class="service-icon">💳</div>
+                <h3 data-en="Jet Card Programs" data-cn="飞行小时卡计划">Jet Card Programs</h3>
+                <p data-en="Flexible flight hour packages on our Gulfstream G550. Enjoy guaranteed availability, fixed hourly rates, and priority booking." data-cn="我们湾流G550的灵活飞行小时套餐。享受保证可用性、固定小时费率和优先预订。">Flexible flight hour packages on our Gulfstream G550. Enjoy guaranteed availability, fixed hourly rates, and priority booking.</p>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1474302770737-173ee21bab63?q=80&w=2662&auto=format&fit=crop" alt="Jet Card">
+            </div>
+        </div>
+
+        <!-- Jet Card Tiers -->
+        <div class="tier-grid">
+            <div class="tier-card">
+                <h4 data-en="Silver" data-cn="银卡">Silver</h4>
+                <div class="tier-hours">25 <span data-en="hrs" data-cn="小时">hrs</span></div>
+                <ul>
+                    <li data-en="Fixed hourly rate" data-cn="固定小时费率">Fixed hourly rate</li>
+                    <li data-en="48-hour booking notice" data-cn="48小时预订通知">48-hour booking notice</li>
+                    <li data-en="Standard catering" data-cn="标准餐饮">Standard catering</li>
+                </ul>
+                <a href="aircraft.html" class="btn btn-outline" data-en="Learn More" data-cn="了解更多">Learn More</a>
+            </div>
+            <div class="tier-card featured">
+                <div class="tier-badge" data-en="Popular" data-cn="热门">Popular</div>
+                <h4 data-en="Gold" data-cn="金卡">Gold</h4>
+                <div class="tier-hours">50 <span data-en="hrs" data-cn="小时">hrs</span></div>
+                <ul>
+                    <li data-en="10% discount rate" data-cn="9折优惠">10% discount rate</li>
+                    <li data-en="24-hour booking notice" data-cn="24小时预订通知">24-hour booking notice</li>
+                    <li data-en="Premium catering" data-cn="高级餐饮">Premium catering</li>
+                    <li data-en="Ground transfers" data-cn="地面接送">Ground transfers</li>
+                </ul>
+                <a href="aircraft.html" class="btn btn-primary" data-en="Learn More" data-cn="了解更多">Learn More</a>
+            </div>
+            <div class="tier-card">
+                <h4 data-en="Platinum" data-cn="铂金卡">Platinum</h4>
+                <div class="tier-hours">100 <span data-en="hrs" data-cn="小时">hrs</span></div>
+                <ul>
+                    <li data-en="15% discount rate" data-cn="85折优惠">15% discount rate</li>
+                    <li data-en="12-hour booking" data-cn="12小时预订">12-hour booking</li>
+                    <li data-en="All-inclusive" data-cn="全包服务">All-inclusive</li>
+                    <li data-en="Account manager" data-cn="专属经理">Account manager</li>
+                </ul>
+                <a href="aircraft.html" class="btn btn-outline" data-en="Learn More" data-cn="了解更多">Learn More</a>
+            </div>
+        </div>
+
+        <!-- Aircraft Brokerage -->
+        <div class="service-detail">
+            <div class="service-content">
+                <div class="service-icon">🛩️</div>
+                <h3 data-en="Aircraft Acquisition & Brokerage" data-cn="飞机收购与经纪">Aircraft Acquisition & Brokerage</h3>
+                <p data-en="Expert guidance through every stage of aircraft transactions. From market analysis to closing, we protect your interests." data-cn="在飞机交易的每个阶段提供专家指导。从市场分析到交易完成，我们保护您的利益。">Expert guidance through every stage of aircraft transactions. From market analysis to closing, we protect your interests.</p>
+                <div class="service-features">
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Global aircraft sourcing" data-cn="全球飞机采购">Global aircraft sourcing</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Pre-purchase inspections" data-cn="购前检查">Pre-purchase inspections</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Valuation & market analysis" data-cn="估值与市场分析">Valuation & market analysis</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Legal structuring" data-cn="法律架构">Legal structuring</span></div>
+                </div>
+                <a href="cases.html" class="btn btn-primary" data-en="View Case Studies" data-cn="查看案例">View Case Studies</a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2574&auto=format&fit=crop" alt="Aircraft Brokerage">
+            </div>
+        </div>
+
+        <!-- Jet Management -->
+        <div class="service-detail reverse">
+            <div class="service-content">
+                <div class="service-icon">⚙️</div>
+                <h3 data-en="Jet Management Advisory" data-cn="飞机管理咨询">Jet Management Advisory</h3>
+                <p data-en="Strategic consulting for aircraft owners. Optimize operations, reduce costs, and maximize the value of your aviation assets." data-cn="为飞机所有者提供战略咨询。优化运营、降低成本，最大化您航空资产的价值。">Strategic consulting for aircraft owners. Optimize operations, reduce costs, and maximize the value of your aviation assets.</p>
+                <div class="service-features">
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Operational cost analysis" data-cn="运营成本分析">Operational cost analysis</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Crew management consulting" data-cn="机组管理咨询">Crew management consulting</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Maintenance program review" data-cn="维护计划审查">Maintenance program review</span></div>
+                    <div class="feature-item"><span class="check">✓</span> <span data-en="Charter revenue optimization" data-cn="包机收入优化">Charter revenue optimization</span></div>
+                </div>
+                <a href="contact.html" class="btn btn-primary" data-en="Schedule Consultation" data-cn="预约咨询">Schedule Consultation</a>
+            </div>
+            <div class="service-image">
+                <img src="https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?q=80&w=2573&auto=format&fit=crop" alt="Jet Management">
+            </div>
+        </div>
+    </section>
+
+    <!-- Lifestyle Services -->
+    <section class="lifestyle-section">
+        <div class="section-header">
+            <div class="section-label" data-en="Beyond Aviation" data-cn="航空之外">Beyond Aviation</div>
+            <h2 class="section-title" data-en="Lifestyle Services" data-cn="生活服务">Lifestyle Services</h2>
+        </div>
+        <div class="lifestyle-grid">
+            <div class="lifestyle-card">
+                <div class="icon">⛵</div>
+                <h4 data-en="Yacht Consultancy" data-cn="游艇咨询">Yacht Consultancy</h4>
+                <p data-en="Mediterranean charters to acquisition advisory — we extend our expertise to the seas." data-cn="从地中海包租到收购咨询——我们将专业知识延伸到海上。">Mediterranean charters to acquisition advisory — we extend our expertise to the seas.</p>
+            </div>
+            <div class="lifestyle-card">
+                <div class="icon">📦</div>
+                <h4 data-en="Air Cargo" data-cn="航空货运">Air Cargo</h4>
+                <p data-en="Time-sensitive cargo solutions. Secure, swift, and confidential." data-cn="时效性货运解决方案。安全、迅速、保密。">Time-sensitive cargo solutions. Secure, swift, and confidential.</p>
+            </div>
+            <div class="lifestyle-card">
+                <div class="icon">🎯</div>
+                <h4 data-en="Avi-Go Membership" data-cn="Avi-Go会员">Avi-Go Membership</h4>
+                <p data-en="Exclusive membership with priority access and VIP privileges." data-cn="独家会员，享受优先使用权和VIP特权。">Exclusive membership with priority access and VIP privileges.</p>
+            </div>
+            <div class="lifestyle-card">
+                <div class="icon">🏠</div>
+                <h4 data-en="GBA Real Estate" data-cn="大湾区房产">GBA Real Estate</h4>
+                <p data-en="Premium property consultation for high-net-worth clients." data-cn="为高净值客户提供优质房产咨询。">Premium property consultation for high-net-worth clients.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="section-label" data-en="Start Your Journey" data-cn="开始您的旅程">Start Your Journey</div>
+        <h2 data-en="Ready to Experience Azure Seas?" data-cn="准备好体验碧海了吗？">Ready to Experience Azure Seas?</h2>
+        <p data-en="Contact us today for a personalized consultation." data-cn="立即联系我们进行个性化咨询。">Contact us today for a personalized consultation.</p>
+        <div class="cta-buttons">
+            <a href="contact.html" class="btn btn-primary" data-en="Contact Us" data-cn="联系我们">Contact Us</a>
+            <a href="aircraft.html" class="btn btn-outline" data-en="View Aircraft" data-cn="查看飞机">View Aircraft</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">碧</div>
+                    <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+                </div>
+                <p data-en="Your trusted partner for premium aviation services." data-cn="您的高端航空服务可信赖伙伴。">Your trusted partner for premium aviation services.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Services" data-cn="服务">Services</h4>
+                <a href="services.html" data-en="Private Charter" data-cn="私人包机">Private Charter</a>
+                <a href="aircraft.html" data-en="Jet Card" data-cn="飞行卡">Jet Card</a>
+                <a href="services.html" data-en="Aircraft Sales" data-cn="飞机销售">Aircraft Sales</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Company" data-cn="公司">Company</h4>
+                <a href="about.html" data-en="About Us" data-cn="关于我们">About Us</a>
+                <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+                <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Legal" data-cn="法律">Legal</h4>
+                <a href="#" data-en="Privacy" data-cn="隐私">Privacy</a>
+                <a href="#" data-en="Terms" data-cn="条款">Terms</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Azure Seas Limited 碧海公司</p>
+            <div class="social-links">
+                <a href="#">Li</a>
+                <a href="#">In</a>
+                <a href="#">Wx</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+            document.getElementById('lang-cn').classList.toggle('active', currentLang === 'cn');
+            document.querySelectorAll('[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-cn');
+            });
+        }
+    </script>
+</body>
+</html>

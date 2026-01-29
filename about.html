@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Azure Seas Limited 碧海公司</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0A1E3C;
+            --navy-light: #132d54;
+            --navy-dark: #061529;
+            --gold: #D4AF37;
+            --gold-light: #E5C76B;
+            --gold-dark: #B8962E;
+            --white: #FFFFFF;
+            --off-white: #F8F6F3;
+            --gray: #8A9AAF;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Lato', 'Noto Sans SC', sans-serif;
+            background: var(--navy-dark);
+            color: var(--white);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', 'Noto Sans SC', serif;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        a { text-decoration: none; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 30, 60, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+        }
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 500;
+            color: var(--white);
+            letter-spacing: 0.1em;
+        }
+        .logo-text span {
+            display: block;
+            font-size: 0.7rem;
+            font-family: 'Lato', sans-serif;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.3s var(--transition);
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+        .lang-switch {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+        }
+        .lang-switch:hover {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.1);
+        }
+        .lang-switch span { font-size: 0.8rem; letter-spacing: 0.1em; }
+        .lang-switch .active { color: var(--gold); }
+
+        /* Page Header */
+        .page-header {
+            padding: 10rem 4% 5rem;
+            text-align: center;
+            background: 
+                linear-gradient(135deg, rgba(10, 30, 60, 0.95) 0%, rgba(10, 30, 60, 0.7) 100%),
+                url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2574&auto=format&fit=crop') center/cover no-repeat;
+            position: relative;
+        }
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .section-label {
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+        .page-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+        .page-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Story Section */
+        .story {
+            padding: 6rem 4%;
+            background: var(--navy-dark);
+        }
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .story-content h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 1.5rem;
+        }
+        .story-content h2 .gold { color: var(--gold); }
+        .story-content p {
+            color: var(--gray);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        .story-image {
+            position: relative;
+        }
+        .story-image img {
+            width: 100%;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .story-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            bottom: 20px;
+            left: 20px;
+            border: 1px solid var(--gold);
+            z-index: -1;
+        }
+
+        /* Values Section */
+        .values {
+            padding: 6rem 4%;
+            background: var(--navy);
+        }
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        .values-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+        .value-card {
+            background: linear-gradient(145deg, var(--navy-dark) 0%, var(--navy) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.5s var(--transition);
+        }
+        .value-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+        .value-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+        .value-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        .value-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Team Section */
+        .team {
+            padding: 6rem 4%;
+            background: var(--navy-dark);
+        }
+        .team-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+        .team-card {
+            background: linear-gradient(145deg, var(--navy) 0%, var(--navy-light) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            padding: 2.5rem;
+            display: flex;
+            gap: 2rem;
+            transition: all 0.5s var(--transition);
+        }
+        .team-card:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            transform: translateY(-5px);
+        }
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--navy);
+            flex-shrink: 0;
+        }
+        .team-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .team-role {
+            color: var(--gold);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .team-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .credentials {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .credential-badge {
+            padding: 0.3rem 0.8rem;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--gold);
+        }
+
+        /* Certifications */
+        .certifications {
+            padding: 6rem 4%;
+            background: var(--navy);
+            text-align: center;
+        }
+        .cert-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+        .cert-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        .cert-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        .cert-item span {
+            font-size: 0.85rem;
+            color: var(--gray);
+            max-width: 120px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 4%;
+            background: 
+                linear-gradient(135deg, rgba(10, 30, 60, 0.95) 0%, rgba(10, 30, 60, 0.85) 100%),
+                url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop') center/cover no-repeat;
+            text-align: center;
+        }
+        .cta h2 {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            margin-bottom: 1rem;
+        }
+        .cta p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 0;
+            transition: all 0.4s var(--transition);
+            cursor: pointer;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--gold);
+            color: var(--navy);
+        }
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 4% 2rem;
+            background: var(--navy-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-top {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-brand p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-top: 1.5rem;
+            max-width: 300px;
+        }
+        .footer-links h4 {
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            color: var(--gold);
+        }
+        .footer-links a {
+            display: block;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: var(--white); }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-bottom p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+        .social-links a:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .nav-links { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+            .values-grid { grid-template-columns: 1fr; }
+            .team-grid { grid-template-columns: 1fr; }
+            .footer-top { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .team-card { flex-direction: column; align-items: center; text-align: center; }
+            .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">碧</div>
+            <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="services.html" data-en="Services" data-cn="服务">Services</a>
+            <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+            <a href="about.html" class="active" data-en="About" data-cn="关于我们">About</a>
+            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+            <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span class="active" id="lang-en">EN</span>
+                <span>|</span>
+                <span id="lang-cn">中文</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="section-label" data-en="Our Story" data-cn="我们的故事">Our Story</div>
+        <h1 class="page-title" data-en="About Azure Seas" data-cn="关于碧海公司">About Azure Seas</h1>
+        <p class="page-subtitle" data-en="A trusted partner in premium aviation and luxury services since 2019" data-cn="自2019年以来，高端航空和奢华服务的可信赖伙伴">A trusted partner in premium aviation and luxury services since 2019</p>
+    </header>
+
+    <!-- Story Section -->
+    <section class="story">
+        <div class="story-grid">
+            <div class="story-content">
+                <h2 data-en="Excellence in Every <span class='gold'>Journey</span>" data-cn="每一次旅程都<span class='gold'>卓越非凡</span>">Excellence in Every <span class="gold">Journey</span></h2>
+                <p data-en="Azure Seas Limited was founded with a singular vision: to redefine luxury travel in the Greater Bay Area and beyond. With our headquarters in Hong Kong, we serve discerning clients who demand nothing less than perfection." data-cn="碧海公司的创立源于一个独特的愿景：重新定义大湾区及更广泛地区的奢华旅行。我们总部位于香港，服务于追求完美的尊贵客户。">Azure Seas Limited was founded with a singular vision: to redefine luxury travel in the Greater Bay Area and beyond. With our headquarters in Hong Kong, we serve discerning clients who demand nothing less than perfection.</p>
+                <p data-en="Our team combines decades of aviation expertise with deep legal knowledge, ensuring every transaction and charter is executed with the highest standards of professionalism and compliance." data-cn="我们的团队将数十年的航空专业知识与深厚的法律背景相结合，确保每一笔交易和包机服务都以最高的专业标准和合规性执行。">Our team combines decades of aviation expertise with deep legal knowledge, ensuring every transaction and charter is executed with the highest standards of professionalism and compliance.</p>
+                <p data-en="From facilitating multi-million dollar aircraft acquisitions to arranging bespoke charter experiences, we have established ourselves as the premier choice for high-net-worth individuals and corporations throughout Asia." data-cn="从促成数百万美元的飞机收购到安排定制包机体验，我们已成为亚洲高净值个人和企业的首选。">From facilitating multi-million dollar aircraft acquisitions to arranging bespoke charter experiences, we have established ourselves as the premier choice for high-net-worth individuals and corporations throughout Asia.</p>
+            </div>
+            <div class="story-image">
+                <img src="https://images.unsplash.com/photo-1583416750470-965b2707b355?q=80&w=2574&auto=format&fit=crop" alt="Luxury Aviation">
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values">
+        <div class="section-header">
+            <div class="section-label" data-en="Our Values" data-cn="我们的价值观">Our Values</div>
+            <h2 class="section-title" data-en="What Sets Us Apart" data-cn="我们的独特之处">What Sets Us Apart</h2>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">🛡️</div>
+                <h3 data-en="Trust & Integrity" data-cn="信任与诚信">Trust & Integrity</h3>
+                <p data-en="Every engagement is built on transparency and honesty. Our legal expertise ensures complete compliance and protection." data-cn="每一次合作都建立在透明和诚实的基础上。我们的法律专业知识确保全面合规和保护。">Every engagement is built on transparency and honesty. Our legal expertise ensures complete compliance and protection.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">⭐</div>
+                <h3 data-en="Excellence" data-cn="卓越">Excellence</h3>
+                <p data-en="We accept nothing less than perfection. From aircraft selection to in-flight service, every detail is meticulously curated." data-cn="我们只接受完美。从飞机选择到机上服务，每一个细节都经过精心策划。">We accept nothing less than perfection. From aircraft selection to in-flight service, every detail is meticulously curated.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3 data-en="Partnership" data-cn="合作伙伴">Partnership</h3>
+                <p data-en="We view every client relationship as a long-term partnership, dedicated to understanding and exceeding your expectations." data-cn="我们将每一段客户关系视为长期合作伙伴关系，致力于理解并超越您的期望。">We view every client relationship as a long-term partnership, dedicated to understanding and exceeding your expectations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team">
+        <div class="section-header">
+            <div class="section-label" data-en="Leadership" data-cn="领导团队">Leadership</div>
+            <h2 class="section-title" data-en="Meet Our Team" data-cn="认识我们的团队">Meet Our Team</h2>
+        </div>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="team-avatar">MD</div>
+                <div class="team-info">
+                    <h3 data-en="Managing Director" data-cn="董事总经理">Managing Director</h3>
+                    <div class="team-role" data-en="Founder & CEO" data-cn="创始人兼首席执行官">Founder & CEO</div>
+                    <p data-en="Over 15 years of aviation experience. Successfully facilitated G550 acquisitions valued at $30M+. Extensive network across Greater China aviation markets." data-cn="超过15年的航空行业经验。成功促成价值超过3000万美元的G550收购。在大中华区航空市场拥有广泛的人脉网络。">Over 15 years of aviation experience. Successfully facilitated G550 acquisitions valued at $30M+. Extensive network across Greater China aviation markets.</p>
+                </div>
+            </div>
+            <div class="team-card">
+                <div class="team-avatar">法</div>
+                <div class="team-info">
+                    <h3 data-en="Legal Partner" data-cn="法律合伙人">Legal Partner</h3>
+                    <div class="team-role" data-en="Chief Legal Officer" data-cn="首席法务官">Chief Legal Officer</div>
+                    <p data-en="Licensed attorney with triple qualifications in Hong Kong, PRC, and England & Wales. Specializes in aviation law and cross-border transactions." data-cn="持有香港、中国内地及英格兰与威尔士三地执业资格的律师。专注于航空法和跨境交易。">Licensed attorney with triple qualifications in Hong Kong, PRC, and England & Wales. Specializes in aviation law and cross-border transactions.</p>
+                    <div class="credentials">
+                        <span class="credential-badge">HK Bar</span>
+                        <span class="credential-badge">PRC</span>
+                        <span class="credential-badge">UK</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="certifications">
+        <div class="section-header">
+            <div class="section-label" data-en="Credentials" data-cn="资质认证">Credentials</div>
+            <h2 class="section-title" data-en="Certifications & Partnerships" data-cn="认证与合作伙伴">Certifications & Partnerships</h2>
+        </div>
+        <div class="cert-grid">
+            <div class="cert-item">
+                <div class="cert-icon">✈️</div>
+                <span data-en="NBAA Member" data-cn="NBAA会员">NBAA Member</span>
+            </div>
+            <div class="cert-item">
+                <div class="cert-icon">🏆</div>
+                <span data-en="Jet-Bay Certified" data-cn="Jet-Bay认证">Jet-Bay Certified</span>
+            </div>
+            <div class="cert-item">
+                <div class="cert-icon">🌏</div>
+                <span data-en="AsBAA Affiliate" data-cn="亚洲商务航空协会">AsBAA Affiliate</span>
+            </div>
+            <div class="cert-item">
+                <div class="cert-icon">📋</div>
+                <span data-en="HK Registered" data-cn="香港注册">HK Registered</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2 data-en="Ready to Experience Excellence?" data-cn="准备好体验卓越了吗？">Ready to Experience Excellence?</h2>
+        <p data-en="Let us show you what truly personalized aviation service looks like. Contact our team today." data-cn="让我们向您展示真正个性化的航空服务。立即联系我们的团队。">Let us show you what truly personalized aviation service looks like. Contact our team today.</p>
+        <a href="contact.html" class="btn btn-primary" data-en="Contact Us" data-cn="联系我们">Contact Us</a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="logo">
+                    <div class="logo-icon">碧</div>
+                    <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+                </div>
+                <p data-en="Your trusted partner for premium aviation services in the Greater Bay Area and beyond." data-cn="您在大湾区及更广泛地区的高端航空服务的可信赖伙伴。">Your trusted partner for premium aviation services in the Greater Bay Area and beyond.</p>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Services" data-cn="服务">Services</h4>
+                <a href="services.html" data-en="Private Charter" data-cn="私人包机">Private Charter</a>
+                <a href="aircraft.html" data-en="Jet Card" data-cn="飞行卡">Jet Card</a>
+                <a href="services.html" data-en="Aircraft Sales" data-cn="飞机销售">Aircraft Sales</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Company" data-cn="公司">Company</h4>
+                <a href="about.html" data-en="About Us" data-cn="关于我们">About Us</a>
+                <a href="cases.html" data-en="Case Studies" data-cn="案例研究">Case Studies</a>
+                <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+            </div>
+            <div class="footer-links">
+                <h4 data-en="Legal" data-cn="法律">Legal</h4>
+                <a href="#" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</a>
+                <a href="#" data-en="Terms" data-cn="条款">Terms</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Azure Seas Limited 碧海公司</p>
+            <div class="social-links">
+                <a href="#">Li</a>
+                <a href="#">In</a>
+                <a href="#">Wx</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'cn' : 'en';
+            document.getElementById('lang-en').classList.toggle('active', currentLang === 'en');
+            document.getElementById('lang-cn').classList.toggle('active', currentLang === 'cn');
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(currentLang === 'en' ? 'data-en' : 'data-cn');
+                if (text.includes('<span')) el.innerHTML = text;
+                else el.textContent = text;
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Azure Seas Limited 碧海公司</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="nav scrolled" id="navbar">
+        <a href="index.html" class="logo">
+            <div class="logo-icon">碧</div>
+            <div class="logo-text">Azure Seas<span>碧海公司</span></div>
+        </a>
+        <div class="nav-links">
+            <a href="services.html" data-en="Services" data-cn="服务">Services</a>
+            <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
+            <a href="about.html" data-en="About" data-cn="关于我们">About</a>
+            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
+            <a href="contact.html" class="active" data-en="Contact" data-cn="联系">Contact</a>
+            <div class="lang-switch" onclick="toggleLanguage()">
+                <span class="active" id="lang-en">EN</span><span>|</span><span id="lang-cn">中文</span>
+            </div>
+        </div>
+        <div class="mobile-toggle" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+    </nav>
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html">Home</a><a href="services.html">Services</a><a href="aircraft.html">Aircraft</a>
+        <a href="about.html">About</a><a href="cases.html">Cases</a><a href="contact.html">Contact</a>
+    </div>
+
+    <section class="page-header compact">
+        <div class="page-header-bg"></div>
+        <div class="page-header-content">
+            <span class="section-label" data-en="Get in Touch" data-cn="联系我们">Get in Touch</span>
+            <h1 data-en="Contact Us" data-cn="联系我们">Contact Us</h1>
+            <p data-en="We're here to assist with your aviation needs" data-cn="我们随时为您的航空需求提供帮助">We're here to assist with your aviation needs</p>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2 data-en="Let's Connect" data-cn="联系我们">Let's Connect</h2>
+                    <p data-en="Our team is available 24/7 to assist with charter bookings, aircraft inquiries, and all other services." data-cn="我们的团队全天候为您提供包机预订、飞机咨询及所有其他服务。">Our team is available 24/7 to assist with charter bookings, aircraft inquiries, and all other services.</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">📞</div>
+                            <div class="method-details">
+                                <h3 data-en="Phone (24/7)" data-cn="电话（24小时）">Phone (24/7)</h3>
+                                <a href="tel:+85212345678">+852 1234 5678</a>
+                                <span class="method-note" data-en="Hong Kong Office" data-cn="香港办公室">Hong Kong Office</span>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">✉️</div>
+                            <div class="method-details">
+                                <h3 data-en="Email" data-cn="邮箱">Email</h3>
+                                <a href="mailto:info@azureseas.com">info@azureseas.com</a>
+                                <a href="mailto:charter@azureseas.com">charter@azureseas.com</a>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">💬</div>
+                            <div class="method-details">
+                                <h3 data-en="WeChat" data-cn="微信">WeChat</h3>
+                                <span>AzureSeasHK</span>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">📍</div>
+                            <div class="method-details">
+                                <h3 data-en="Office" data-cn="办公室">Office</h3>
+                                <p>Central Tower, 28 Queen's Road Central,<br>Central, Hong Kong</p>
+                                <span class="method-note" data-en="By appointment" data-cn="仅限预约">By appointment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-hours">
+                        <h3 data-en="Office Hours" data-cn="办公时间">Office Hours</h3>
+                        <div class="hours-grid">
+                            <div class="hours-row"><span data-en="Mon - Fri" data-cn="周一至周五">Mon - Fri</span><span>9:00 AM - 6:00 PM HKT</span></div>
+                            <div class="hours-row"><span data-en="Saturday" data-cn="周六">Saturday</span><span>10:00 AM - 2:00 PM HKT</span></div>
+                            <div class="hours-row"><span data-en="Charter Hotline" data-cn="包机热线">Charter Hotline</span><span data-en="24/7 Available" data-cn="全天候">24/7 Available</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-wrapper">
+                    <div class="form-header">
+                        <h2 data-en="Send Us a Message" data-cn="给我们留言">Send Us a Message</h2>
+                        <p data-en="We'll respond within 24 hours." data-cn="我们将在24小时内回复。">We'll respond within 24 hours.</p>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-en="First Name *" data-cn="名 *">First Name *</label>
+                                <input type="text" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-en="Last Name *" data-cn="姓 *">Last Name *</label>
+                                <input type="text" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label data-en="Email *" data-cn="邮箱 *">Email *</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-en="Phone" data-cn="电话">Phone</label>
+                                <input type="tel" name="phone">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Service Interest *" data-cn="感兴趣的服务 *">Service Interest *</label>
+                            <select name="service" required>
+                                <option value="">Select a service...</option>
+                                <option value="charter">Private Jet Charter</option>
+                                <option value="jetcard">Jet Card Programs</option>
+                                <option value="acquisition">Aircraft Acquisition</option>
+                                <option value="brokerage">Aircraft Sales</option>
+                                <option value="management">Jet Management</option>
+                                <option value="yacht">Yacht Services</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label data-en="Message *" data-cn="留言 *">Message *</label>
+                            <textarea name="message" rows="5" required placeholder="Please describe your requirements..."></textarea>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="privacy" required>
+                                <span data-en="I agree to the Privacy Policy" data-cn="我同意隐私政策">I agree to the Privacy Policy</span>
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" data-en="Send Message" data-cn="发送消息">Send Message</button>
+                        <p class="form-disclaimer" data-en="Your information is kept strictly confidential." data-cn="您的信息将被严格保密。">Your information is kept strictly confidential.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="map-section">
+        <div class="map-placeholder">
+            <div class="map-overlay">
+                <div class="map-content">
+                    <h3 data-en="Hong Kong Office" data-cn="香港办公室">Hong Kong Office</h3>
+                    <p>Central Tower, 28 Queen's Road Central, Hong Kong</p>
+                    <a href="https://maps.google.com" target="_blank" class="btn btn-outline" data-en="Open in Maps" data-cn="打开地图">Open in Maps</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-links-section">
+        <div class="container">
+            <div class="quick-links-grid">
+                <a href="services.html" class="quick-link-card">
+                    <span class="quick-link-icon">✈️</span>
+                    <h3 data-en="View Services" data-cn="查看服务">View Services</h3>
+                    <p data-en="Explore our aviation solutions" data-cn="探索我们的航空解决方案">Explore our aviation solutions</p>
+                </a>
+                <a href="aircraft.html" class="quick-link-card">
+                    <span class="quick-link-icon">🛩️</span>
+                    <h3 data-en="G550 Details" data-cn="G550详情">G550 Details</h3>
+                    <p data-en="Our flagship aircraft" data-cn="我们的旗舰飞机">Our flagship aircraft</p>
+                </a>
+                <a href="cases.html" class="quick-link-card">
+                    <span class="quick-link-icon">📊</span>
+                    <h3 data-en="Case Studies" data-cn="案例">Case Studies</h3>
+                    <p data-en="See our track record" data-cn="查看我们的业绩">See our track record</p>
+                </a>
+                <a href="about.html" class="quick-link-card">
+                    <span class="quick-link-icon">👥</span>
+                    <h3 data-en="About Us" data-cn="关于我们">About Us</h3>
+                    <p data-en="Meet our team" data-cn="认识我们的团队">Meet our team</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="index.html" class="logo"><div class="logo-icon">碧</div><div class="logo-text">Azure Seas<span>碧海公司</span></div></a>
+                <p>Your trusted partner for premium aviation services.</p>
+            </div>
+            <div class="footer-links"><h4>Services</h4><a href="services.html">Private Charter</a><a href="aircraft.html">Jet Card</a><a href="services.html">Aircraft Sales</a></div>
+            <div class="footer-links"><h4>Company</h4><a href="about.html">About Us</a><a href="cases.html">Case Studies</a><a href="contact.html">Contact</a></div>
+            <div class="footer-links"><h4>Legal</h4><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+        </div>
+        <div class="footer-bottom"><p>© 2025 Azure Seas Limited 碧海公司</p><div class="social-links"><a href="#">Li</a><a href="#">In</a><a href="#">Wx</a></div></div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
