@@ -1,238 +1,3161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azure Seas Limited 碧海公司 | Premium Aviation Services</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lato:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Azure Seas Limited | Bespoke Global Aviation Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600&family=Outfit:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   CSS VARIABLES & RESET
+   ═══════════════════════════════════════════ */
+:root {
+  --navy-deep: #0a1628;
+  --navy: #0f2140;
+  --navy-light: #162d54;
+  --gold: #c9a84c;
+  --gold-light: #e4cc7a;
+  --gold-pale: #f5e6b8;
+  --white: #ffffff;
+  --white-90: rgba(255,255,255,0.9);
+  --white-70: rgba(255,255,255,0.7);
+  --white-50: rgba(255,255,255,0.5);
+  --white-20: rgba(255,255,255,0.2);
+  --white-10: rgba(255,255,255,0.1);
+  --white-05: rgba(255,255,255,0.05);
+  --font-display: 'Playfair Display', 'Noto Sans SC', serif;
+  --font-elegant: 'Cormorant Garamond', 'Noto Sans SC', serif;
+  --font-body: 'Outfit', 'Noto Sans SC', sans-serif;
+  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --transition-fast: 0.25s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--navy-deep);
+  color: var(--white-90);
+  overflow-x: hidden;
+  line-height: 1.7;
+}
+
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+/* ═══════════════════════════════════════════
+   LOADING SCREEN
+   ═══════════════════════════════════════════ */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--navy-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-scene {
+  position: relative;
+  width: 400px;
+  height: 250px;
+  overflow: hidden;
+}
+
+/* Runway */
+.runway {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--white-20) 20%, var(--white-20) 80%, transparent 100%);
+}
+
+.runway::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--gold) 0px, var(--gold) 20px, transparent 20px, transparent 40px);
+  animation: runwayScroll 0.8s linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes runwayScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40px); }
+}
+
+/* Runway lights */
+.runway-light {
+  position: absolute;
+  bottom: 56px;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: lightBlink 1s infinite alternate;
+  box-shadow: 0 0 8px var(--gold), 0 0 16px rgba(201, 168, 76, 0.3);
+}
+
+@keyframes lightBlink {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
+}
+
+/* Jet SVG */
+.loader-jet {
+  position: absolute;
+  bottom: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  animation: jetTakeoff 3s cubic-bezier(0.4, 0, 0.2, 1) 0.8s forwards;
+}
+
+.loader-jet svg {
+  width: 100%;
+  filter: drop-shadow(0 4px 20px rgba(201, 168, 76, 0.3));
+}
+
+@keyframes jetTakeoff {
+  0% {
+    transform: translateX(-50%) translateY(0) rotate(0deg) scale(1);
+  }
+  30% {
+    transform: translateX(-30%) translateY(-10px) rotate(-3deg) scale(1.02);
+  }
+  60% {
+    transform: translateX(0%) translateY(-80px) rotate(-12deg) scale(0.9);
+  }
+  100% {
+    transform: translateX(80%) translateY(-200px) rotate(-15deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Exhaust trail */
+.jet-trail {
+  position: absolute;
+  bottom: 72px;
+  left: 30%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(201, 168, 76, 0.4), rgba(255,255,255,0.1));
+  border-radius: 2px;
+  animation: trailGrow 3s ease-out 1s forwards;
+  filter: blur(1px);
+}
+
+@keyframes trailGrow {
+  0% { width: 0; opacity: 0; }
+  30% { width: 80px; opacity: 0.6; }
+  60% { width: 200px; opacity: 0.3; }
+  100% { width: 300px; opacity: 0; }
+}
+
+/* Clouds */
+.loader-cloud {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  animation: cloudDrift 4s ease-in-out infinite alternate;
+}
+
+@keyframes cloudDrift {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(20px); }
+}
+
+/* Stars / sky particles */
+.sky-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--white);
+  border-radius: 50%;
+  animation: starTwinkle 2s infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.1; }
+  100% { opacity: 0.6; }
+}
+
+/* Loader text */
+.loader-brand {
+  margin-top: 30px;
+  text-align: center;
+  animation: fadeIn 1s ease 0.3s both;
+}
+
+.loader-brand h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.loader-brand p {
+  font-family: var(--font-elegant);
+  font-size: 0.85rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Progress bar */
+.loader-progress {
+  width: 200px;
+  height: 1px;
+  background: var(--white-10);
+  margin-top: 30px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.loader-progress-bar {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  animation: progressFill 3.2s ease-in-out forwards;
+  box-shadow: 0 0 10px var(--gold);
+}
+
+@keyframes progressFill {
+  0% { width: 0; }
+  40% { width: 50%; }
+  70% { width: 80%; }
+  100% { width: 100%; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--navy-deep); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════
+   HEADER & NAVIGATION
+   ═══════════════════════════════════════════ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 18px 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition);
+  background: transparent;
+}
+
+.header.scrolled {
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(20px);
+  padding: 12px 50px;
+  box-shadow: 0 2px 40px rgba(0,0,0,0.3);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  width: 48px;
+  height: 48px;
+  position: relative;
+}
+
+.logo-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.logo-tagline {
+  font-family: var(--font-elegant);
+  font-size: 0.7rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-top: -2px;
+}
+
+.nav { display: flex; align-items: center; gap: 8px; }
+
+.nav-link {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--white-70);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  position: relative;
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: var(--transition);
+  transform: translateX(-50%);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--gold);
+}
+
+.nav-link:hover::after, .nav-link.active::after {
+  width: 60%;
+}
+
+/* Dropdown */
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 260px;
+  background: rgba(15, 33, 64, 0.97);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--white-10);
+  border-radius: 4px;
+  padding: 10px 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: var(--transition-fast);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-link {
+  display: block;
+  padding: 10px 24px;
+  font-size: 0.78rem;
+  color: var(--white-70);
+  letter-spacing: 0.5px;
+  transition: var(--transition-fast);
+}
+
+.dropdown-link:hover {
+  color: var(--gold);
+  background: var(--white-05);
+  padding-left: 30px;
+}
+
+/* Language Switcher */
+.lang-switch {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 20px;
+  border: 1px solid var(--white-20);
+  border-radius: 30px;
+  padding: 3px;
+}
+
+.lang-btn {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--white-50);
+  background: transparent;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  letter-spacing: 1px;
+}
+
+.lang-btn.active {
+  background: var(--gold);
+  color: var(--navy-deep);
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--white);
+}
+
+/* CTA Nav Button */
+.nav-cta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--navy-deep);
+  background: var(--gold);
+  border: none;
+  padding: 10px 24px;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: var(--transition);
+  margin-left: 10px;
+}
+
+.nav-cta:hover {
+  background: var(--gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+}
+
+/* Mobile Burger */
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.burger span {
+  width: 28px;
+  height: 1.5px;
+  background: var(--white);
+  transition: var(--transition-fast);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE SYSTEM
+   ═══════════════════════════════════════════ */
+.page {
+  display: none;
+  min-height: 100vh;
+}
+
+.page.active {
+  display: block;
+}
+
+/* ═══════════════════════════════════════════
+   HERO SECTION
+   ═══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 50%, rgba(201, 168, 76, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(22, 45, 84, 0.6) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(10,22,40,0.7) 0%, rgba(10,22,40,0.5) 50%, rgba(10,22,40,0.85) 100%),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1920&q=80') center/cover no-repeat;
+}
+
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 50%;
+  opacity: 0;
+  animation: particleFloat 8s infinite;
+}
+
+@keyframes particleFloat {
+  0% { opacity: 0; transform: translateY(100vh) scale(0); }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-10vh) scale(1); }
+}
+
+.hero-line {
+  position: absolute;
+  width: 1px;
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.15;
+  animation: lineMove 12s infinite linear;
+}
+
+@keyframes lineMove {
+  0% { transform: translateY(-200px); }
+  100% { transform: translateY(calc(100vh + 200px)); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 20px;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 24px;
+  border: 1px solid var(--white-20);
+  border-radius: 50px;
+  margin-bottom: 30px;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  animation: fadeInDown 1s ease 0.2s both;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+.hero-company {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4.2rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  animation: fadeInDown 1s ease 0.4s both;
+}
+
+.hero-subtitle {
+  font-family: var(--font-elegant);
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  animation: fadeInDown 1s ease 0.6s both;
+}
+
+.hero-services {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--white-50);
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  animation: fadeInDown 1s ease 0.7s both;
+}
+
+.hero-think-big {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2.5vw, 2rem);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+  animation: fadeInDown 1s ease 0.8s both;
+}
+
+.hero-think-big span {
+  color: var(--gold);
+}
+
+.hero-journey {
+  font-family: var(--font-elegant);
+  font-size: 1.15rem;
+  color: var(--white-70);
+  font-style: italic;
+  margin-bottom: 20px;
+  animation: fadeInDown 1s ease 0.9s both;
+}
+
+.hero-features {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 45px;
+  animation: fadeInDown 1s ease 1s both;
+}
+
+.hero-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--white-70);
+  letter-spacing: 1px;
+}
+
+.hero-feature svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2;
+}
+
+.hero-dot {
+  width: 3px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.hero-ctas {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  animation: fadeInUp 1s ease 1.1s both;
+}
+
+.btn-primary {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--navy-deep);
+  background: var(--gold);
+  border: none;
+  padding: 16px 40px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: 0.6s;
+}
+
+.btn-primary:hover::before { left: 100%; }
+
+.btn-primary:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
+}
+
+.btn-outline {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold);
+  padding: 16px 40px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: var(--navy-deep);
+  transform: translateY(-2px);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeInUp 1s ease 1.5s both;
+}
+
+.hero-scroll span {
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--white-50);
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollLine 2s infinite;
+}
+
+@keyframes scrollLine {
+  0% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.3; transform: scaleY(0.5); }
+  100% { opacity: 1; transform: scaleY(1); }
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════
+   SECTIONS BASE
+   ═══════════════════════════════════════════ */
+.section {
+  padding: 120px 60px;
+  position: relative;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-family: var(--font-elegant);
+  font-size: 1.15rem;
+  color: var(--white-70);
+  max-width: 700px;
+  line-height: 1.8;
+}
+
+/* ═══════════════════════════════════════════
+   ABOUT INTRO SECTION
+   ═══════════════════════════════════════════ */
+.about-intro {
+  background: linear-gradient(180deg, var(--navy-deep) 0%, var(--navy) 100%);
+}
+
+.about-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.about-intro-text .section-subtitle {
+  max-width: 100%;
+  margin-bottom: 30px;
+}
+
+.about-intro-visual {
+  position: relative;
+  height: 450px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: 
+    linear-gradient(135deg, rgba(10,22,40,0.4), rgba(15,33,64,0.6)),
+    url('https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=800&q=80') center/cover no-repeat;
+}
+
+.about-visual-card {
+  position: absolute;
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  border: 1px solid var(--white-10);
+  border-radius: 8px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+}
+
+.about-visual-card.card-1 {
+  top: 0;
+  right: 0;
+  width: 280px;
+}
+
+.about-visual-card.card-2 {
+  bottom: 40px;
+  left: 0;
+  width: 260px;
+}
+
+.about-visual-card.card-3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  text-align: center;
+  border-color: var(--gold);
+  background: linear-gradient(135deg, rgba(201, 168, 76, 0.1), var(--navy));
+}
+
+.visual-stat {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.visual-stat-label {
+  font-size: 0.78rem;
+  color: var(--white-50);
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   CORE SERVICES SECTION
+   ═══════════════════════════════════════════ */
+.services-section {
+  background: 
+    linear-gradient(180deg, rgba(15,33,64,0.95) 0%, rgba(15,33,64,0.98) 100%),
+    url('https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=1920&q=60&fit=crop') center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.services-section::before {
+  content: '';
+  position: absolute;
+  top: -200px;
+  right: -200px;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201, 168, 76, 0.04) 0%, transparent 70%);
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 70px;
+}
+
+.services-header .section-subtitle {
+  margin: 0 auto;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: linear-gradient(145deg, var(--navy-deep), var(--navy-light));
+  border: 1px solid var(--white-10);
+  border-radius: 4px;
+  padding: 40px 30px;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: var(--transition);
+}
+
+.service-card:hover::before {
+  transform: scaleX(1);
+}
+
+.service-card:hover {
+  border-color: var(--white-20);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.service-icon {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 24px;
+  color: var(--gold);
+}
+
+.service-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.service-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+
+.service-card p {
+  font-size: 0.88rem;
+  color: var(--white-50);
+  line-height: 1.7;
+}
+
+.service-card .learn-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 0.78rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: var(--transition-fast);
+}
+
+.service-card:hover .learn-more {
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════════
+   WHY CHOOSE US
+   ═══════════════════════════════════════════ */
+.why-section {
+  background: 
+    linear-gradient(180deg, rgba(15,33,64,0.97) 0%, rgba(10,22,40,0.98) 100%),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1920&q=60&fit=crop') center/cover no-repeat;
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  max-width: 1100px;
+  margin: 50px auto 0;
+}
+
+.why-item {
+  text-align: center;
+  padding: 35px 20px;
+  border: 1px solid var(--white-05);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.why-item:hover {
+  border-color: var(--gold);
+  background: var(--white-05);
+}
+
+.why-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.why-icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.why-item h4 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════════
+   TESTIMONIALS
+   ═══════════════════════════════════════════ */
+.testimonials-section {
+  background: var(--navy-deep);
+  overflow: hidden;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 50px auto 0;
+}
+
+.testimonial-card {
+  background: linear-gradient(145deg, var(--navy), var(--navy-light));
+  border: 1px solid var(--white-10);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 4px 4px 0;
+  padding: 40px;
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '"';
+  font-family: var(--font-display);
+  font-size: 5rem;
+  color: var(--gold);
+  opacity: 0.15;
+  position: absolute;
+  top: 10px;
+  right: 30px;
+  line-height: 1;
+}
+
+.testimonial-card p {
+  font-family: var(--font-elegant);
+  font-size: 1.1rem;
+  color: var(--white-70);
+  font-style: italic;
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.testimonial-author {
+  font-size: 0.82rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+/* ═══════════════════════════════════════════
+   FEATURED HIGHLIGHTS
+   ═══════════════════════════════════════════ */
+.highlights-section {
+  background: var(--navy);
+  text-align: center;
+}
+
+.highlights-tags {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.highlight-tag {
+  padding: 14px 32px;
+  border: 1px solid var(--white-20);
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: var(--white-70);
+  letter-spacing: 1px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.highlight-tag:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(201, 168, 76, 0.05);
+}
+
+/* ═══════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════ */
+.footer {
+  background: var(--navy-deep);
+  border-top: 1px solid var(--white-10);
+  padding: 70px 60px 30px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 50px;
+  max-width: 1300px;
+  margin: 0 auto 50px;
+}
+
+.footer-brand .logo-name {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.footer-brand .logo-tagline {
+  margin-bottom: 16px;
+}
+
+.footer-brand p {
+  font-size: 0.85rem;
+  color: var(--white-50);
+  line-height: 1.7;
+  max-width: 300px;
+}
+
+.footer-col h5 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--white-50);
+  padding: 5px 0;
+  transition: var(--transition-fast);
+}
+
+.footer-col a:hover {
+  color: var(--gold);
+  padding-left: 5px;
+}
+
+.footer-bottom {
+  border-top: 1px solid var(--white-05);
+  padding-top: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.footer-bottom p {
+  font-size: 0.75rem;
+  color: var(--white-50);
+  letter-spacing: 0.5px;
+}
+
+.footer-legal {
+  display: flex;
+  gap: 25px;
+}
+
+.footer-legal a {
+  font-size: 0.75rem;
+  color: var(--white-50);
+  transition: var(--transition-fast);
+}
+
+.footer-legal a:hover {
+  color: var(--gold);
+}
+
+/* ═══════════════════════════════════════════
+   PAGE HEADERS (for inner pages)
+   ═══════════════════════════════════════════ */
+.page-header {
+  padding: 160px 60px 80px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(10,22,40,0.85), rgba(15,33,64,0.9)),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1920&q=70&fit=crop&crop=top') center/cover no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 30% 50%, rgba(201, 168, 76, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 30%, rgba(22, 45, 84, 0.4) 0%, transparent 50%);
+}
+
+.page-header .section-label,
+.page-header .section-title,
+.page-header .section-subtitle {
+  position: relative;
+  z-index: 2;
+}
+
+.page-header .section-label {
+  justify-content: center;
+}
+
+.page-header .section-subtitle {
+  margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════
+   ABOUT PAGE
+   ═══════════════════════════════════════════ */
+.story-section {
+  background: var(--navy);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.story-text p {
+  font-size: 0.95rem;
+  color: var(--white-70);
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+
+.story-visual {
+  position: relative;
+  height: 400px;
+  border: 1px solid var(--white-10);
+  border-radius: 8px;
+  overflow: hidden;
+  background: 
+    linear-gradient(135deg, rgba(22,45,84,0.3), rgba(10,22,40,0.5)),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80&fit=crop&crop=right') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-visual-inner {
+  text-align: center;
+}
+
+.story-visual svg {
+  width: 120px;
+  height: 120px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 0.8;
+  opacity: 0.3;
+}
+
+.mission-section {
+  background: var(--navy-deep);
+}
+
+.mission-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 50px auto 0;
+}
+
+.mission-card {
+  background: linear-gradient(145deg, var(--navy), var(--navy-light));
+  border: 1px solid var(--white-10);
+  padding: 45px;
+  border-radius: 4px;
+}
+
+.mission-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.mission-card p {
+  font-size: 0.92rem;
+  color: var(--white-70);
+  line-height: 1.8;
+}
+
+.values-row {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 50px auto 0;
+}
+
+.value-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 28px;
+  border: 1px solid var(--white-10);
+  border-radius: 50px;
+  font-size: 0.88rem;
+  color: var(--white-70);
+  transition: var(--transition);
+}
+
+.value-item:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.value-item svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2;
+}
+
+.leadership-section {
+  background: var(--navy);
+}
+
+.leadership-section .section-subtitle {
+  max-width: 900px;
+}
+
+.reach-section {
+  background: var(--navy-deep);
+}
+
+.reach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 25px;
+  max-width: 1000px;
+  margin: 50px auto 0;
+}
+
+.reach-item {
+  text-align: center;
+  padding: 30px 15px;
+  border: 1px solid var(--white-05);
+  border-radius: 4px;
+  transition: var(--transition);
+}
+
+.reach-item:hover {
+  border-color: var(--gold);
+}
+
+.reach-item h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.reach-item p {
+  font-size: 0.78rem;
+  color: var(--white-50);
+}
+
+.commitment-section {
+  background: var(--navy);
+}
+
+.commitment-section .section-subtitle {
+  max-width: 900px;
+}
+
+/* ═══════════════════════════════════════════
+   SERVICE DETAIL PAGES
+   ═══════════════════════════════════════════ */
+.service-detail {
+  background: var(--navy);
+}
+
+.service-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.service-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border: 1px solid var(--white-05);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: var(--white-70);
+  transition: var(--transition);
+}
+
+.service-detail-item:hover {
+  border-color: var(--gold);
+  padding-left: 26px;
+}
+
+.service-detail-item svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2;
+  flex-shrink: 0;
+}
+
+.process-section {
+  background: var(--navy-deep);
+}
+
+.process-steps {
+  display: flex;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 50px auto 0;
+  position: relative;
+}
+
+.process-steps::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 35px;
+  right: 35px;
+  height: 1px;
+  background: var(--white-10);
+}
+
+.process-step {
+  flex: 1;
+  text-align: center;
+  position: relative;
+}
+
+.step-number {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--gold);
+  margin: 0 auto 18px;
+  background: var(--navy-deep);
+  position: relative;
+  z-index: 2;
+}
+
+.process-step h4 {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--white);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.service-cta-section {
+  background: var(--navy);
+  text-align: center;
+  padding: 80px 60px;
+}
+
+.service-cta-section .btn-primary {
+  margin: 0 10px;
+}
+
+/* ═══════════════════════════════════════════
+   FLEET PAGE
+   ═══════════════════════════════════════════ */
+.fleet-section {
+  background: var(--navy);
+}
+
+.fleet-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1300px;
+  margin: 50px auto 0;
+}
+
+.fleet-card {
+  background: linear-gradient(145deg, var(--navy-deep), var(--navy-light));
+  border: 1px solid var(--white-10);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.fleet-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+
+.fleet-card-img {
+  height: 200px;
+  background: linear-gradient(135deg, rgba(22,45,84,0.3), rgba(10,22,40,0.5)),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&q=80') center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--white-10);
+  position: relative;
+}
+
+.fleet-card:nth-child(2) .fleet-card-img {
+  background: linear-gradient(135deg, rgba(22,45,84,0.3), rgba(10,22,40,0.5)),
+    url('https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=600&q=80') center/cover no-repeat;
+}
+
+.fleet-card:nth-child(3) .fleet-card-img {
+  background: linear-gradient(135deg, rgba(22,45,84,0.3), rgba(10,22,40,0.5)),
+    url('https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&q=80&fit=crop&crop=left') center/cover no-repeat;
+}
+
+.fleet-card:nth-child(4) .fleet-card-img {
+  background: linear-gradient(135deg, rgba(22,45,84,0.3), rgba(10,22,40,0.5)),
+    url('https://images.unsplash.com/photo-1474302770737-173ee21bab63?w=600&q=80&fit=crop&crop=bottom') center/cover no-repeat;
+}
+
+.fleet-card-img svg {
+  width: 80px;
+  height: 80px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 0.8;
+  opacity: 0.5;
+}
+
+.fleet-card-body {
+  padding: 28px;
+}
+
+.fleet-card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.fleet-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.fleet-spec {
+  font-size: 0.78rem;
+  color: var(--white-50);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fleet-spec svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--gold);
+  fill: none;
+  stroke-width: 2;
+}
+
+/* ═══════════════════════════════════════════
+   SAFETY PAGE
+   ═══════════════════════════════════════════ */
+.standards-section {
+  background: var(--navy);
+}
+
+.standards-badges {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  max-width: 800px;
+  margin: 50px auto 0;
+}
+
+.standard-badge {
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--white-20);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  letter-spacing: 1px;
+  transition: var(--transition);
+}
+
+.standard-badge:hover {
+  border-color: var(--gold);
+  background: rgba(201, 168, 76, 0.05);
+  transform: scale(1.05);
+}
+
+/* ═══════════════════════════════════════════
+   NEWS PAGE
+   ═══════════════════════════════════════════ */
+.news-section {
+  background: var(--navy);
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 50px auto 0;
+}
+
+.news-card {
+  background: linear-gradient(145deg, var(--navy-deep), var(--navy-light));
+  border: 1px solid var(--white-10);
+  border-radius: 6px;
+  padding: 35px;
+  transition: var(--transition);
+}
+
+.news-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+.news-card-label {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.news-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.news-card p {
+  font-size: 0.85rem;
+  color: var(--white-50);
+  line-height: 1.7;
+}
+
+/* ═══════════════════════════════════════════
+   CONTACT PAGE
+   ═══════════════════════════════════════════ */
+.contact-section {
+  background: var(--navy);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contact-info-block {
+  margin-bottom: 35px;
+}
+
+.contact-info-block h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.contact-info-block p {
+  font-size: 0.9rem;
+  color: var(--white-70);
+  line-height: 1.7;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  color: var(--white-50);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--white);
+  background: var(--navy-deep);
+  border: 1px solid var(--white-10);
+  padding: 14px 18px;
+  border-radius: 3px;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.form-group select {
+  appearance: none;
+  cursor: pointer;
+}
+
+/* ═══════════════════════════════════════════
+   LEGAL PAGE
+   ═══════════════════════════════════════════ */
+.legal-section {
+  background: var(--navy);
+}
+
+.legal-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.legal-content h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin: 40px 0 16px;
+}
+
+.legal-content p {
+  font-size: 0.9rem;
+  color: var(--white-70);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+/* ═══════════════════════════════════════════
+   MOBILE NAVIGATION
+   ═══════════════════════════════════════════ */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 22, 40, 0.98);
+  backdrop-filter: blur(20px);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobile-menu .nav-link {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.mobile-close {
+  position: absolute;
+  top: 25px;
+  right: 30px;
+  font-size: 2rem;
+  color: var(--white);
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .header { padding: 15px 30px; }
+  .section { padding: 80px 30px; }
+  .footer { padding: 50px 30px 25px; }
+  .about-intro-grid { grid-template-columns: 1fr; gap: 40px; }
+  .about-intro-visual { height: 300px; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .story-grid { grid-template-columns: 1fr; }
+  .service-detail-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+}
+
+@media (max-width: 768px) {
+  .nav { display: none; }
+  .lang-switch { margin-left: auto; }
+  .nav-cta { display: none; }
+  .burger { display: flex; }
+  .mobile-menu { display: flex; }
+  .header { padding: 12px 20px; }
+  .section { padding: 60px 20px; }
+  .hero-features { flex-direction: column; gap: 12px; }
+  .hero-ctas { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-outline { width: 100%; max-width: 300px; text-align: center; }
+  .services-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .highlights-tags { flex-wrap: wrap; }
+  .mission-grid { grid-template-columns: 1fr; }
+  .process-steps { flex-direction: column; }
+  .process-steps::before { display: none; }
+  .fleet-categories { grid-template-columns: 1fr; }
+  .form-row { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+  .page-header { padding: 130px 20px 60px; }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav" id="navbar">
-        <a href="index.html" class="logo">
-            <div class="logo-icon">碧</div>
-            <div class="logo-text">
-                Azure Seas
-                <span>碧海公司</span>
-            </div>
-        </a>
-        <div class="nav-links">
-            <a href="services.html" data-en="Services" data-cn="服务">Services</a>
-            <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
-            <a href="about.html" data-en="About" data-cn="关于我们">About</a>
-            <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
-            <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
-            <div class="lang-switch" onclick="toggleLanguage()">
-                <span class="active" id="lang-en">EN</span>
-                <span>|</span>
-                <span id="lang-cn">中文</span>
-            </div>
-        </div>
-        <div class="mobile-toggle" onclick="toggleMobileMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html" data-en="Home" data-cn="首页">Home</a>
-        <a href="services.html" data-en="Services" data-cn="服务">Services</a>
-        <a href="aircraft.html" data-en="Aircraft" data-cn="飞机">Aircraft</a>
-        <a href="about.html" data-en="About" data-cn="关于我们">About</a>
-        <a href="cases.html" data-en="Cases" data-cn="案例">Cases</a>
-        <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
+<!-- ═══════════════════════════════════════════
+     LOADING SCREEN
+     ═══════════════════════════════════════════ -->
+<div class="loader" id="loader">
+  <div class="loader-scene">
+    <!-- Sky stars -->
+    <div class="sky-star" style="top:15%;left:10%;animation-delay:0s;"></div>
+    <div class="sky-star" style="top:8%;left:30%;animation-delay:0.4s;"></div>
+    <div class="sky-star" style="top:25%;left:55%;animation-delay:0.8s;"></div>
+    <div class="sky-star" style="top:5%;left:75%;animation-delay:1.2s;"></div>
+    <div class="sky-star" style="top:20%;left:90%;animation-delay:0.2s;"></div>
+    <div class="sky-star" style="top:35%;left:20%;animation-delay:0.6s;"></div>
+    <div class="sky-star" style="top:12%;left:65%;animation-delay:1s;"></div>
+    <div class="sky-star" style="top:30%;left:82%;animation-delay:0.3s;"></div>
+    
+    <!-- Clouds -->
+    <div class="loader-cloud" style="width:100px;height:40px;top:30%;left:5%;animation-delay:0s;"></div>
+    <div class="loader-cloud" style="width:140px;height:50px;top:15%;right:10%;animation-delay:1s;"></div>
+    <div class="loader-cloud" style="width:80px;height:30px;top:45%;left:60%;animation-delay:2s;"></div>
+    
+    <!-- Jet -->
+    <div class="loader-jet">
+      <svg viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Fuselage -->
+        <ellipse cx="100" cy="30" rx="75" ry="12" fill="url(#jetGrad)" opacity="0.95"/>
+        <!-- Nose -->
+        <path d="M175 30 L200 28 L200 32 Z" fill="#e8e8e8"/>
+        <!-- Cockpit windows -->
+        <path d="M170 26 L180 25.5 L180 28 L170 28 Z" fill="#87CEEB" opacity="0.6"/>
+        <!-- Wings -->
+        <path d="M85 30 L60 8 L70 8 L110 28 Z" fill="url(#wingGrad)" opacity="0.9"/>
+        <path d="M85 30 L60 52 L70 52 L110 32 Z" fill="url(#wingGrad)" opacity="0.9"/>
+        <!-- Tail -->
+        <path d="M30 30 L15 10 L25 10 L38 28 Z" fill="url(#wingGrad)" opacity="0.85"/>
+        <path d="M30 30 L20 42 L28 42 L38 32 Z" fill="url(#wingGrad)" opacity="0.7"/>
+        <!-- Vertical stabilizer -->
+        <path d="M28 30 L18 8 L30 8 L35 28 Z" fill="#d0d0d0" opacity="0.8"/>
+        <!-- Engine glow -->
+        <circle cx="25" cy="30" r="5" fill="#c9a84c" opacity="0.6">
+          <animate attributeName="opacity" values="0.4;0.8;0.4" dur="0.5s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="20" cy="30" r="8" fill="#c9a84c" opacity="0.2">
+          <animate attributeName="opacity" values="0.1;0.3;0.1" dur="0.3s" repeatCount="indefinite"/>
+        </circle>
+        <!-- Window line -->
+        <line x1="60" y1="28" x2="160" y2="28" stroke="#87CEEB" stroke-width="1.5" opacity="0.3" stroke-dasharray="3 4"/>
+        <defs>
+          <linearGradient id="jetGrad" x1="25" y1="30" x2="175" y2="30">
+            <stop offset="0%" stop-color="#b0b0b0"/>
+            <stop offset="50%" stop-color="#e8e8e8"/>
+            <stop offset="100%" stop-color="#f5f5f5"/>
+          </linearGradient>
+          <linearGradient id="wingGrad" x1="60" y1="8" x2="110" y2="30">
+            <stop offset="0%" stop-color="#c0c0c0"/>
+            <stop offset="100%" stop-color="#e0e0e0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+    
+    <!-- Exhaust trail -->
+    <div class="jet-trail"></div>
+    
+    <!-- Runway -->
+    <div class="runway"></div>
+    
+    <!-- Runway lights -->
+    <div class="runway-light" style="left:10%;animation-delay:0s;"></div>
+    <div class="runway-light" style="left:25%;animation-delay:0.2s;"></div>
+    <div class="runway-light" style="left:40%;animation-delay:0.4s;"></div>
+    <div class="runway-light" style="left:55%;animation-delay:0.6s;"></div>
+    <div class="runway-light" style="left:70%;animation-delay:0.8s;"></div>
+    <div class="runway-light" style="left:85%;animation-delay:1s;"></div>
+  </div>
+
+  <div class="loader-brand">
+    <h2>Azure Seas</h2>
+    <p>Bespoke Global Aviation</p>
+  </div>
+
+  <div class="loader-progress">
+    <div class="loader-progress-bar"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HEADER / NAVIGATION
+     ═══════════════════════════════════════════ -->
+<header class="header" id="header">
+  <div class="logo" onclick="navigateTo('home')">
+    <div class="logo-icon">
+      <svg viewBox="0 0 48 48" fill="none">
+        <path d="M24 4 L44 24 L24 44 L4 24 Z" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+        <path d="M24 12 L36 24 L24 36 L12 24 Z" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.5"/>
+        <circle cx="24" cy="24" r="4" stroke="#c9a84c" stroke-width="1" fill="none"/>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <div class="logo-name" data-en="Azure Seas" data-cn="碧海集团">Azure Seas</div>
+      <div class="logo-tagline" data-en="Limited" data-cn="有限公司">Limited</div>
+    </div>
+  </div>
+
+  <nav class="nav" id="mainNav">
+    <span class="nav-link" data-page="home" data-en="Home" data-cn="首页" onclick="navigateTo('home')">Home</span>
+    <span class="nav-link" data-page="about" data-en="About" data-cn="关于我们" onclick="navigateTo('about')">About</span>
+    <div class="nav-dropdown">
+      <span class="nav-link" data-page="services" data-en="Services" data-cn="服务" onclick="navigateTo('services')">Services ▾</span>
+      <div class="nav-dropdown-menu">
+        <a class="dropdown-link" data-en="Private Jet Charter" data-cn="私人飞机包机" onclick="navigateTo('charter')">Private Jet Charter</a>
+        <a class="dropdown-link" data-en="Aircraft Leasing & Finance" data-cn="飞机租赁与融资" onclick="navigateTo('leasing')">Aircraft Leasing & Finance</a>
+        <a class="dropdown-link" data-en="Project Consultancy" data-cn="项目咨询" onclick="navigateTo('consultancy')">Project Consultancy</a>
+        <a class="dropdown-link" data-en="Aircraft Management" data-cn="飞机管理" onclick="navigateTo('management')">Aircraft Management</a>
+        <a class="dropdown-link" data-en="Family Office" data-cn="家族办公室" onclick="navigateTo('family-office')">Family Office</a>
+      </div>
+    </div>
+    <span class="nav-link" data-page="fleet" data-en="Fleet" data-cn="机队" onclick="navigateTo('fleet')">Fleet</span>
+    <span class="nav-link" data-page="cases" data-en="Clients" data-cn="客户案例" onclick="navigateTo('cases')">Clients</span>
+    <span class="nav-link" data-page="safety" data-en="Safety" data-cn="安全合规" onclick="navigateTo('safety')">Safety</span>
+    <span class="nav-link" data-page="news" data-en="News" data-cn="新闻动态" onclick="navigateTo('news')">News</span>
+    <span class="nav-link" data-page="contact" data-en="Contact" data-cn="联系我们" onclick="navigateTo('contact')">Contact</span>
+  </nav>
+
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="lang-switch">
+      <button class="lang-btn active" id="langEn" onclick="switchLang('en')">EN</button>
+      <button class="lang-btn" id="langCn" onclick="switchLang('cn')">中文</button>
+    </div>
+    <button class="nav-cta" data-en="Get a Quote" data-cn="获取报价" onclick="navigateTo('contact')">Get a Quote</button>
+    <div class="burger" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="toggleMobile()">&times;</button>
+  <span class="nav-link" data-en="Home" data-cn="首页" onclick="navigateTo('home');toggleMobile()">Home</span>
+  <span class="nav-link" data-en="About" data-cn="关于我们" onclick="navigateTo('about');toggleMobile()">About</span>
+  <span class="nav-link" data-en="Services" data-cn="服务" onclick="navigateTo('services');toggleMobile()">Services</span>
+  <span class="nav-link" data-en="Private Jet Charter" data-cn="私人飞机包机" onclick="navigateTo('charter');toggleMobile()">Private Jet Charter</span>
+  <span class="nav-link" data-en="Leasing & Finance" data-cn="租赁与融资" onclick="navigateTo('leasing');toggleMobile()">Leasing & Finance</span>
+  <span class="nav-link" data-en="Consultancy" data-cn="项目咨询" onclick="navigateTo('consultancy');toggleMobile()">Consultancy</span>
+  <span class="nav-link" data-en="Management" data-cn="飞机管理" onclick="navigateTo('management');toggleMobile()">Management</span>
+  <span class="nav-link" data-en="Family Office" data-cn="家族办公室" onclick="navigateTo('family-office');toggleMobile()">Family Office</span>
+  <span class="nav-link" data-en="Fleet" data-cn="机队" onclick="navigateTo('fleet');toggleMobile()">Fleet</span>
+  <span class="nav-link" data-en="Clients" data-cn="客户案例" onclick="navigateTo('cases');toggleMobile()">Clients</span>
+  <span class="nav-link" data-en="Safety" data-cn="安全合规" onclick="navigateTo('safety');toggleMobile()">Safety</span>
+  <span class="nav-link" data-en="News" data-cn="新闻动态" onclick="navigateTo('news');toggleMobile()">News</span>
+  <span class="nav-link" data-en="Contact" data-cn="联系我们" onclick="navigateTo('contact');toggleMobile()">Contact</span>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: HOME
+     ═══════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-line" style="left:15%;animation-delay:0s;"></div>
+    <div class="hero-line" style="left:45%;animation-delay:4s;"></div>
+    <div class="hero-line" style="left:75%;animation-delay:8s;"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span data-en="Bespoke Global Aviation" data-cn="定制全球航空服务">Bespoke Global Aviation</span>
+      </div>
+      <h1 class="hero-company" data-en="Azure Seas Limited" data-cn="碧海集团有限公司">Azure Seas Limited</h1>
+      <p class="hero-subtitle" data-en="Bespoke Global Aviation Solutions" data-cn="定制全球航空解决方案">Bespoke Global Aviation Solutions</p>
+      <p class="hero-services" data-en="Private Jet Charter  |  Aircraft Leasing & Finance  |  Consultancy  |  Management" data-cn="私人飞机包机  |  飞机租赁与融资  |  咨询服务  |  管理服务">Private Jet Charter  |  Aircraft Leasing & Finance  |  Consultancy  |  Management</p>
+      
+      <p class="hero-think-big" data-en='We think <span>BIG</span> !' data-cn='我们志存高远 <span>!</span>'>We think <span>BIG</span> !</p>
+      <p class="hero-journey" data-en="Your journey, your schedule, our excellence." data-cn="您的旅程，您的日程，我们的卓越。">Your journey, your schedule, our excellence.</p>
+
+      <div class="hero-features">
+        <div class="hero-feature">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span data-en="24/7 Global Concierge" data-cn="全天候全球礼宾服务">24/7 Global Concierge</span>
+        </div>
+        <div class="hero-dot"></div>
+        <div class="hero-feature">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span data-en="Unrivaled Safety" data-cn="无与伦比的安全">Unrivaled Safety</span>
+        </div>
+        <div class="hero-dot"></div>
+        <div class="hero-feature">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span data-en="Total Discretion" data-cn="绝对保密">Total Discretion</span>
+        </div>
+      </div>
+
+      <div class="hero-ctas">
+        <button class="btn-primary" data-en="Request a Charter Quote" data-cn="请求包机报价" onclick="navigateTo('contact')">Request a Charter Quote</button>
+        <button class="btn-outline" data-en="Schedule a Consultation" data-cn="预约咨询" onclick="navigateTo('contact')">Schedule a Consultation</button>
+      </div>
     </div>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <span class="section-label" data-en="Premium Aviation Services" data-cn="高端航空服务">Premium Aviation Services</span>
-            <h1 data-en="Your Journey, Elevated" data-cn="您的旅程，卓越升华">Your Journey, Elevated</h1>
-            <p data-en="Experience the pinnacle of private aviation with Azure Seas. From executive charter services to aircraft acquisition, we deliver excellence across the Greater Bay Area and beyond." data-cn="与碧海公司一起体验私人航空的巅峰。从行政包机服务到飞机收购，我们在大湾区及更广泛地区提供卓越服务。">
-                Experience the pinnacle of private aviation with Azure Seas. From executive charter services to aircraft acquisition, we deliver excellence across the Greater Bay Area and beyond.
-            </p>
-            <div class="hero-buttons">
-                <a href="aircraft.html#inquiry-form" class="btn btn-primary" data-en="Request a Quote" data-cn="获取报价">Request a Quote</a>
-                <a href="services.html" class="btn btn-outline" data-en="Explore Services" data-cn="探索服务">Explore Services</a>
-            </div>
-        </div>
-    </section>
+    <div class="hero-scroll">
+      <span data-en="Scroll" data-cn="滚动">Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
 
-    <!-- Stats Bar -->
-    <section class="stats-bar">
-        <div class="container">
-            <div class="stats-bar-grid">
-                <div class="stat-item">
-                    <span class="stat-number">G550</span>
-                    <span class="stat-label" data-en="Flagship Aircraft" data-cn="旗舰飞机">Flagship Aircraft</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label" data-en="Charter Flights" data-cn="包机飞行">Charter Flights</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24/7</span>
-                    <span class="stat-label" data-en="Availability" data-cn="全天候服务">Availability</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">100%</span>
-                    <span class="stat-label" data-en="Client Satisfaction" data-cn="客户满意度">Client Satisfaction</span>
-                </div>
-            </div>
+  <!-- ABOUT INTRO -->
+  <section class="section about-intro">
+    <div class="about-intro-grid reveal">
+      <div class="about-intro-text">
+        <div class="section-label" data-en="About Azure Seas" data-cn="关于碧海集团">About Azure Seas</div>
+        <h2 class="section-title" data-en="Leading Global Aviation Services" data-cn="领先的全球航空服务">Leading Global Aviation Services</h2>
+        <p class="section-subtitle" data-en="Azure Seas Limited is a leading global aviation services provider, delivering tailored private jet charter, flexible aircraft leasing and structured finance, professional aviation and family office project consultancy, and end-to-end aircraft management solutions." data-cn="碧海集团有限公司是领先的全球航空服务提供商，提供定制私人飞机包机、灵活的飞机租赁和结构化融资、专业的航空及家族办公室项目咨询，以及端到端的飞机管理解决方案。">Azure Seas Limited is a leading global aviation services provider, delivering tailored private jet charter, flexible aircraft leasing and structured finance, professional aviation and family office project consultancy, and end-to-end aircraft management solutions.</p>
+        <p class="section-subtitle" style="margin-top:10px;" data-en="We serve high-net-worth individuals, corporate clients, investors, and government entities with precision, privacy, and the highest industry standards." data-cn="我们以精准、保密和最高行业标准为高净值个人、企业客户、投资者和政府机构提供服务。">We serve high-net-worth individuals, corporate clients, investors, and government entities with precision, privacy, and the highest industry standards.</p>
+        <button class="btn-outline" style="margin-top:30px;" data-en="Learn More About Us" data-cn="了解更多" onclick="navigateTo('about')">Learn More About Us</button>
+      </div>
+      <div class="about-intro-visual">
+        <div class="about-visual-card card-1">
+          <div class="visual-stat">24/7</div>
+          <div class="visual-stat-label" data-en="Global Concierge" data-cn="全球礼宾服务">Global Concierge</div>
         </div>
-    </section>
+        <div class="about-visual-card card-2">
+          <div class="visual-stat" data-en="Global" data-cn="全球">Global</div>
+          <div class="visual-stat-label" data-en="Network Coverage" data-cn="网络覆盖">Network Coverage</div>
+        </div>
+        <div class="about-visual-card card-3">
+          <div class="visual-stat">✦</div>
+          <div class="visual-stat-label" data-en="Excellence" data-cn="卓越品质">Excellence</div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Services Section -->
-    <section class="services-section">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label" data-en="What We Offer" data-cn="我们的服务">What We Offer</span>
-                <h2 class="section-title" data-en="Premium Services" data-cn="高端服务">Premium Services</h2>
-                <p class="section-desc" data-en="Comprehensive aviation solutions tailored to your needs" data-cn="为您量身定制的全方位航空解决方案">Comprehensive aviation solutions tailored to your needs</p>
-            </div>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">✈️</div>
-                    <h3 data-en="Private Charter" data-cn="私人包机">Private Charter</h3>
-                    <p data-en="On-demand access to luxury aircraft. Fly on your schedule with complete privacy and comfort." data-cn="随时享用豪华飞机。按照您的时间表飞行，享受完全的私密与舒适。">On-demand access to luxury aircraft. Fly on your schedule with complete privacy and comfort.</p>
-                    <a href="services.html#charter" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">💳</div>
-                    <h3 data-en="Jet Card Programs" data-cn="飞行小时卡">Jet Card Programs</h3>
-                    <p data-en="Flexible flight hour packages on our G550. Guaranteed availability and fixed hourly rates." data-cn="我们G550的灵活飞行小时套餐。保证可用性和固定小时费率。">Flexible flight hour packages on our G550. Guaranteed availability and fixed hourly rates.</p>
-                    <a href="services.html#jetcard" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">🛩️</div>
-                    <h3 data-en="Aircraft Brokerage" data-cn="飞机经纪">Aircraft Brokerage</h3>
-                    <p data-en="Expert guidance through aircraft transactions. From sourcing to closing, we protect your interests." data-cn="飞机交易的专家指导。从采购到交易完成，我们保护您的利益。">Expert guidance through aircraft transactions. From sourcing to closing, we protect your interests.</p>
-                    <a href="services.html#brokerage" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
-                </div>
-                <div class="service-card">
-                    <div class="service-icon">⛵</div>
-                    <h3 data-en="Yacht Consultancy" data-cn="游艇咨询">Yacht Consultancy</h3>
-                    <p data-en="Extending our expertise to the seas. Premium yacht charter and acquisition advisory services." data-cn="将我们的专业知识延伸到海上。高端游艇包租和收购咨询服务。">Extending our expertise to the seas. Premium yacht charter and acquisition advisory services.</p>
-                    <a href="services.html" class="service-link" data-en="Learn More →" data-cn="了解更多 →">Learn More →</a>
-                </div>
-            </div>
+  <!-- CORE SERVICES -->
+  <section class="section services-section">
+    <div class="services-header reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Our Core Services" data-cn="我们的核心服务">Our Core Services</div>
+      <h2 class="section-title" style="text-align:center;" data-en="Comprehensive Aviation Solutions" data-cn="全面的航空解决方案">Comprehensive Aviation Solutions</h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal" onclick="navigateTo('charter')">
+        <div class="service-icon">
+          <svg viewBox="0 0 50 50"><path d="M5 35 L20 20 L35 25 L45 10" /><path d="M40 10 L45 10 L45 15" /><path d="M10 40 L15 35" /><circle cx="10" cy="40" r="3"/></svg>
         </div>
-    </section>
+        <h3 data-en="Private Jet Charter" data-cn="私人飞机包机">Private Jet Charter</h3>
+        <p data-en="On-demand, group, empty leg, VIP, and corporate executive charter worldwide." data-cn="全球按需、团体、空驶航段、贵宾及企业高管包机服务。">On-demand, group, empty leg, VIP, and corporate executive charter worldwide.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
 
-    <!-- Featured Aircraft -->
-    <section class="aircraft-overview" style="background: var(--gray-100);">
-        <div class="container">
-            <div class="overview-grid">
-                <div class="overview-content">
-                    <span class="section-label" data-en="Featured Aircraft" data-cn="特色飞机">Featured Aircraft</span>
-                    <h2 data-en="Gulfstream G550" data-cn="湾流G550">Gulfstream G550</h2>
-                    <p data-en="The gold standard in ultra-long-range business aviation. Our meticulously maintained G550 offers unparalleled comfort, range, and reliability for the most discerning travelers." data-cn="超远程公务航空的黄金标准。我们精心维护的G550为最挑剔的旅客提供无与伦比的舒适度、航程和可靠性。">
-                        The gold standard in ultra-long-range business aviation. Our meticulously maintained G550 offers unparalleled comfort, range, and reliability for the most discerning travelers.
-                    </p>
-                    <div class="mission-stats">
-                        <div class="mission-stat">
-                            <span class="stat-number">12,500km</span>
-                            <span class="stat-label" data-en="Range" data-cn="航程">Range</span>
-                        </div>
-                        <div class="mission-stat">
-                            <span class="stat-number">14-19</span>
-                            <span class="stat-label" data-en="Passengers" data-cn="载客量">Passengers</span>
-                        </div>
-                        <div class="mission-stat">
-                            <span class="stat-number">Mach 0.87</span>
-                            <span class="stat-label" data-en="Max Speed" data-cn="最大速度">Max Speed</span>
-                        </div>
-                    </div>
-                    <a href="aircraft.html" class="btn btn-primary" style="margin-top: 30px;" data-en="View Aircraft Details" data-cn="查看飞机详情">View Aircraft Details</a>
-                </div>
-                <div class="overview-image">
-                    <img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?q=80&w=2574&auto=format&fit=crop" alt="Gulfstream G550">
-                </div>
-            </div>
+      <div class="service-card reveal" onclick="navigateTo('leasing')">
+        <div class="service-icon">
+          <svg viewBox="0 0 50 50"><rect x="5" y="15" width="40" height="25" rx="3" /><path d="M15 15 V10 H35 V15" /><path d="M25 22 V32" /><path d="M20 27 H30" /></svg>
         </div>
-    </section>
+        <h3 data-en="Aircraft Leasing & Finance" data-cn="飞机租赁与融资">Aircraft Leasing & Finance</h3>
+        <p data-en="Dry, wet, and damp leasing; aircraft acquisition finance, refinancing, and asset solutions." data-cn="干租、湿租和半湿租；飞机购置融资、再融资和资产解决方案。">Dry, wet, and damp leasing; aircraft acquisition finance, refinancing, and asset solutions.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
 
-    <!-- Testimonial -->
-    <section style="padding: 100px 0;">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label" data-en="Testimonials" data-cn="客户评价">Testimonials</span>
-                <h2 class="section-title" data-en="Client Experiences" data-cn="客户体验">Client Experiences</h2>
-            </div>
-            <div class="case-testimonial" style="max-width: 800px; margin: 0 auto; border-left-color: var(--gold);">
-                <p data-en=""Azure Seas' expertise in both the aviation market and legal structuring made our aircraft acquisition seamless. Their attention to detail and commitment to our interests exceeded expectations."" data-cn=""碧海公司在航空市场和法律架构方面的专业知识使我们的飞机收购变得无缝衔接。他们对细节的关注和对我们利益的承诺超出了我们的期望。"">
-                    "Azure Seas' expertise in both the aviation market and legal structuring made our aircraft acquisition seamless. Their attention to detail and commitment to our interests exceeded expectations."
-                </p>
-                <span class="testimonial-author" data-en="— Private Investor, Hong Kong" data-cn="— 私人投资者，香港">— Private Investor, Hong Kong</span>
-            </div>
+      <div class="service-card reveal" onclick="navigateTo('consultancy')">
+        <div class="service-icon">
+          <svg viewBox="0 0 50 50"><path d="M10 40 V15 L25 5 L40 15 V40" /><rect x="18" y="25" width="14" height="15" /><path d="M25 25 V40" /><path d="M18 32 H32" /></svg>
         </div>
-    </section>
+        <h3 data-en="Project Consultancy" data-cn="项目咨询">Project Consultancy</h3>
+        <p data-en="Feasibility, market entry, regulatory compliance, operational strategy, and risk management." data-cn="可行性研究、市场准入、法规合规、运营策略和风险管理。">Feasibility, market entry, regulatory compliance, operational strategy, and risk management.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
 
-    <!-- CTA Section -->
-    <section class="cta">
-        <span class="section-label" data-en="Start Your Journey" data-cn="开始您的旅程">Start Your Journey</span>
-        <h2 data-en="Ready to Experience Azure Seas?" data-cn="准备好体验碧海了吗？">Ready to Experience Azure Seas?</h2>
-        <p data-en="Contact our team for a personalized consultation. Available 24/7 for your aviation needs." data-cn="联系我们的团队进行个性化咨询。全天候为您的航空需求服务。">
-            Contact our team for a personalized consultation. Available 24/7 for your aviation needs.
-        </p>
-        <div class="cta-buttons">
-            <a href="contact.html" class="btn btn-primary" data-en="Contact Us" data-cn="联系我们">Contact Us</a>
-            <a href="cases.html" class="btn btn-outline" data-en="View Case Studies" data-cn="查看案例研究">View Case Studies</a>
+      <div class="service-card reveal" onclick="navigateTo('management')">
+        <div class="service-icon">
+          <svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" /><path d="M25 12 V25 L35 30" /><circle cx="25" cy="25" r="3" fill="none"/></svg>
         </div>
-    </section>
+        <h3 data-en="Aircraft Management" data-cn="飞机管理">Aircraft Management</h3>
+        <p data-en="Full operational, crew, maintenance, and asset management for private and corporate owners." data-cn="为私人及企业所有者提供全面的运营、机组、维护和资产管理。">Full operational, crew, maintenance, and asset management for private and corporate owners.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-top">
-            <div class="footer-brand">
-                <a href="index.html" class="logo">
-                    <div class="logo-icon">碧</div>
-                    <div class="logo-text">
-                        Azure Seas
-                        <span>碧海公司</span>
-                    </div>
-                </a>
-                <p data-en="Your trusted partner for premium aviation services and luxury lifestyle solutions in the Greater Bay Area and beyond." data-cn="您在大湾区及更广泛地区的高端航空服务及奢华生活解决方案的可信赖伙伴。">
-                    Your trusted partner for premium aviation services and luxury lifestyle solutions in the Greater Bay Area and beyond.
-                </p>
-            </div>
-            <div class="footer-links">
-                <h4 data-en="Services" data-cn="服务">Services</h4>
-                <a href="services.html#charter" data-en="Private Charter" data-cn="私人包机">Private Charter</a>
-                <a href="services.html#jetcard" data-en="Jet Card" data-cn="飞行卡">Jet Card</a>
-                <a href="services.html#brokerage" data-en="Aircraft Sales" data-cn="飞机销售">Aircraft Sales</a>
-                <a href="services.html" data-en="Yacht Services" data-cn="游艇服务">Yacht Services</a>
-            </div>
-            <div class="footer-links">
-                <h4 data-en="Company" data-cn="公司">Company</h4>
-                <a href="about.html" data-en="About Us" data-cn="关于我们">About Us</a>
-                <a href="about.html#team" data-en="Our Team" data-cn="我们的团队">Our Team</a>
-                <a href="cases.html" data-en="Case Studies" data-cn="案例研究">Case Studies</a>
-                <a href="contact.html" data-en="Contact" data-cn="联系">Contact</a>
-            </div>
-            <div class="footer-links">
-                <h4 data-en="Legal" data-cn="法律">Legal</h4>
-                <a href="#" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</a>
-                <a href="#" data-en="Terms of Service" data-cn="服务条款">Terms of Service</a>
-                <a href="#" data-en="Disclaimer" data-cn="免责声明">Disclaimer</a>
-            </div>
+      <div class="service-card reveal" onclick="navigateTo('family-office')">
+        <div class="service-icon">
+          <svg viewBox="0 0 50 50"><path d="M8 22 L25 8 L42 22" /><path d="M12 22 V42 H38 V22" /><path d="M20 42 V30 H30 V42" /><circle cx="25" cy="18" r="2" fill="none"/></svg>
         </div>
-        <div class="footer-bottom">
-            <p>© 2025 Azure Seas Limited 碧海公司. All rights reserved.</p>
-            <div class="social-links">
-                <a href="#">Li</a>
-                <a href="#">In</a>
-                <a href="#">Wx</a>
-            </div>
-        </div>
-    </footer>
+        <h3 data-en="Family Office" data-cn="家族办公室">Family Office</h3>
+        <p data-en="Comprehensive family office services for ultra-high-net-worth families: investment, financial planning, tax, estate, and philanthropy management." data-cn="为超高净值家族提供全面的家族办公室服务：投资、财务规划、税务、遗产和慈善管理。">Comprehensive family office services for ultra-high-net-worth families: investment, financial planning, tax, estate, and philanthropy management.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+    </div>
+  </section>
 
-    <script src="script.js"></script>
+  <!-- WHY CHOOSE US -->
+  <section class="section why-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Why Choose Azure Seas" data-cn="为什么选择碧海集团">Why Choose Azure Seas</div>
+      <h2 class="section-title" style="text-align:center;" data-en="The Azure Seas Advantage" data-cn="碧海集团优势">The Azure Seas Advantage</h2>
+    </div>
+    <div class="why-grid reveal">
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="18"/><path d="M22 4 A18 18 0 0 1 40 22"/><path d="M22 10 A12 12 0 0 1 34 22"/></svg>
+        </div>
+        <h4 data-en="Global Network Coverage" data-cn="全球网络覆盖">Global Network Coverage</h4>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><circle cx="22" cy="22" r="10"/><path d="M22 6 V12"/><path d="M22 32 V38"/><path d="M6 22 H12"/><path d="M32 22 H38"/></svg>
+        </div>
+        <h4 data-en="24/7 Personalized Concierge" data-cn="全天候个性化礼宾服务">24/7 Personalized Concierge</h4>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><path d="M22 4 L26 16 H38 L28 24 L32 36 L22 28 L12 36 L16 24 L6 16 H18 Z"/></svg>
+        </div>
+        <h4 data-en="Industry-Leading Safety" data-cn="行业领先的安全标准">Industry-Leading Safety</h4>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><path d="M22 6 L38 14 V30 L22 38 L6 30 V14 Z"/><path d="M22 6 V38"/><path d="M6 14 L38 14"/></svg>
+        </div>
+        <h4 data-en="Tailored, Client-Focused" data-cn="量身定制，以客户为中心">Tailored, Client-Focused</h4>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><path d="M10 34 C10 20 22 10 22 10 C22 10 34 20 34 34"/><path d="M16 30 C16 24 22 18 22 18 C22 18 28 24 28 30"/></svg>
+        </div>
+        <h4 data-en="Decades of Expertise" data-cn="数十年行业经验">Decades of Expertise</h4>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">
+          <svg viewBox="0 0 44 44"><rect x="8" y="14" width="28" height="20" rx="3"/><path d="M14 14 V10 A8 8 0 0 1 30 10 V14"/><circle cx="22" cy="25" r="3"/></svg>
+        </div>
+        <h4 data-en="Absolute Privacy & Discretion" data-cn="绝对隐私与保密">Absolute Privacy & Discretion</h4>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED HIGHLIGHTS -->
+  <section class="section highlights-section">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Featured Highlights" data-cn="精选亮点">Featured Highlights</div>
+      <h2 class="section-title" data-en="Discover Our Offerings" data-cn="探索我们的服务">Discover Our Offerings</h2>
+    </div>
+    <div class="highlights-tags reveal">
+      <div class="highlight-tag" data-en="Featured Fleet" data-cn="精选机队" onclick="navigateTo('fleet')">Featured Fleet</div>
+      <div class="highlight-tag" data-en="Empty Leg Specials" data-cn="空驶航段优惠" onclick="navigateTo('fleet')">Empty Leg Specials</div>
+      <div class="highlight-tag" data-en="Recent Client Cases" data-cn="近期客户案例" onclick="navigateTo('cases')">Recent Client Cases</div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section testimonials-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Client Testimonials" data-cn="客户评价">Client Testimonials</div>
+      <h2 class="section-title" data-en="Trusted by Leaders Worldwide" data-cn="全球领袖信赖之选">Trusted by Leaders Worldwide</h2>
+    </div>
+    <div class="testimonials-grid reveal">
+      <div class="testimonial-card">
+        <p data-en="Azure Seas delivered seamless, discreet, and exceptional service for our global travel requirements. A true partner in luxury aviation." data-cn="碧海集团为我们的全球出行需求提供了无缝、低调且卓越的服务。真正的豪华航空合作伙伴。">Azure Seas delivered seamless, discreet, and exceptional service for our global travel requirements. A true partner in luxury aviation.</p>
+        <div class="testimonial-author" data-en="— Corporate Client" data-cn="— 企业客户">— Corporate Client</div>
+      </div>
+      <div class="testimonial-card">
+        <p data-en="The leasing and finance structure was tailored perfectly to our business needs. Professional, efficient, and reliable." data-cn="租赁和融资方案完美地根据我们的业务需求量身定制。专业、高效、可靠。">The leasing and finance structure was tailored perfectly to our business needs. Professional, efficient, and reliable.</p>
+        <div class="testimonial-author" data-en="— Aviation Investor" data-cn="— 航空投资者">— Aviation Investor</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- END page-home -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: ABOUT US
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-about">
+  <div class="page-header">
+    <div class="section-label" data-en="About Us" data-cn="关于我们">About Us</div>
+    <h1 class="section-title" data-en="Our Story & Mission" data-cn="我们的故事与使命">Our Story & Mission</h1>
+    <p class="section-subtitle" data-en="Redefining excellence in global aviation and consultant services since establishment." data-cn="自成立以来，重新定义全球航空和咨询服务的卓越标准。">Redefining excellence in global aviation and consultant services since establishment.</p>
+  </div>
+
+  <!-- Our Story -->
+  <section class="section story-section">
+    <div class="story-grid reveal">
+      <div class="story-text">
+        <div class="section-label" data-en="Our Story" data-cn="我们的故事">Our Story</div>
+        <h2 class="section-title" data-en="Excellence in Aviation" data-cn="航空卓越">Excellence in Aviation</h2>
+        <p data-en="Azure Seas Limited was established to redefine excellence in global aviation and consultant services. Combining deep industry expertise, a global network, and uncompromising standards, we deliver end-to-end solutions that elevate private travel, corporate aviation, aircraft investment, operational management and family office." data-cn="碧海集团有限公司的成立旨在重新定义全球航空和咨询服务的卓越标准。结合深厚的行业专业知识、全球网络和不妥协的标准，我们提供端到端的解决方案，提升私人旅行、企业航空、飞机投资、运营管理和家族办公室的服务水平。">Azure Seas Limited was established to redefine excellence in global aviation and consultant services. Combining deep industry expertise, a global network, and uncompromising standards, we deliver end-to-end solutions that elevate private travel, corporate aviation, aircraft investment, operational management and family office.</p>
+      </div>
+      <div class="story-visual"></div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="section mission-section">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Mission & Vision" data-cn="使命与愿景">Mission & Vision</div>
+      <h2 class="section-title" style="text-align:center;" data-en="Guiding Principles" data-cn="指导原则">Guiding Principles</h2>
+    </div>
+    <div class="mission-grid reveal">
+      <div class="mission-card">
+        <h3 data-en="Mission" data-cn="使命">Mission</h3>
+        <p data-en="To provide safe, bespoke, and seamless aviation services that exceed client expectations through professionalism, discretion, and innovation." data-cn="通过专业、保密和创新，提供安全、定制和无缝的航空服务，超越客户期望。">To provide safe, bespoke, and seamless aviation services that exceed client expectations through professionalism, discretion, and innovation.</p>
+      </div>
+      <div class="mission-card">
+        <h3 data-en="Vision" data-cn="愿景">Vision</h3>
+        <p data-en="To be the most trusted global partner for private charter, aircraft leasing, finance, consultancy, and management services." data-cn="成为私人包机、飞机租赁、融资、咨询和管理服务最值得信赖的全球合作伙伴。">To be the most trusted global partner for private charter, aircraft leasing, finance, consultancy, and management services.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section" style="background:var(--navy);text-align:center;">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Core Values" data-cn="核心价值观">Core Values</div>
+      <h2 class="section-title" data-en="What Drives Us" data-cn="我们的驱动力">What Drives Us</h2>
+    </div>
+    <div class="values-row reveal">
+      <div class="value-item"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span data-en="Safety" data-cn="安全">Safety</span></div>
+      <div class="value-item"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-en="Discretion" data-cn="保密">Discretion</span></div>
+      <div class="value-item"><svg viewBox="0 0 24 24"><path d="M12 2 L15 9 H22 L16 14 L18 21 L12 17 L6 21 L8 14 L2 9 H9 Z"/></svg><span data-en="Excellence" data-cn="卓越">Excellence</span></div>
+      <div class="value-item"><svg viewBox="0 0 24 24"><path d="M12 22 C17.5 18 20 14 20 10 A8 8 0 0 0 4 10 C4 14 6.5 18 12 22Z"/></svg><span data-en="Integrity" data-cn="诚信">Integrity</span></div>
+      <div class="value-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg><span data-en="Customization" data-cn="定制化">Customization</span></div>
+    </div>
+  </section>
+
+  <!-- Our Leadership -->
+  <section class="section leadership-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Our Leadership" data-cn="我们的领导团队">Our Leadership</div>
+      <h2 class="section-title" style="text-align:center;" data-en="Experienced Professionals" data-cn="经验丰富的专业人士">Experienced Professionals</h2>
+      <p class="section-subtitle" style="margin:0 auto;" data-en="Our team comprises seasoned aviation and legal professionals with extensive backgrounds in private charter, aircraft leasing, structured finance, regulatory compliance, and global operations. Every leader brings decades of hands-on experience to deliver trusted, high-quality solutions." data-cn="我们的团队由经验丰富的航空和法律专业人士组成，在私人包机、飞机租赁、结构化融资、法规合规和全球运营方面拥有丰富的背景。每位领导者都带来数十年的实践经验，提供值得信赖的高质量解决方案。">Our team comprises seasoned aviation and legal professionals with extensive backgrounds in private charter, aircraft leasing, structured finance, regulatory compliance, and global operations. Every leader brings decades of hands-on experience to deliver trusted, high-quality solutions.</p>
+    </div>
+  </section>
+
+  <!-- Global Reach -->
+  <section class="section reach-section">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Global Reach" data-cn="全球覆盖">Global Reach</div>
+      <h2 class="section-title" style="text-align:center;" data-en="Worldwide Operations" data-cn="全球运营">Worldwide Operations</h2>
+    </div>
+    <div class="reach-grid reveal">
+      <div class="reach-item"><h4 data-en="Europe" data-cn="欧洲">Europe</h4><p data-en="Comprehensive coverage" data-cn="全面覆盖">Comprehensive coverage</p></div>
+      <div class="reach-item"><h4 data-en="Middle East" data-cn="中东">Middle East</h4><p data-en="Strategic presence" data-cn="战略布局">Strategic presence</p></div>
+      <div class="reach-item"><h4 data-en="Asia" data-cn="亚洲">Asia</h4><p data-en="Growing network" data-cn="不断扩大的网络">Growing network</p></div>
+      <div class="reach-item"><h4 data-en="Russia & Central Asia" data-cn="俄罗斯和中亚">Russia & Central Asia</h4><p data-en="Local expertise" data-cn="本地专业知识">Local expertise</p></div>
+    </div>
+  </section>
+
+  <!-- Our Commitment -->
+  <section class="section commitment-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Our Commitment" data-cn="我们的承诺">Our Commitment</div>
+      <h2 class="section-title" style="text-align:center;" data-en="Standards Without Compromise" data-cn="毫不妥协的标准">Standards Without Compromise</h2>
+      <p class="section-subtitle" style="margin:0 auto;" data-en="We uphold the strictest international safety standards, ensure full regulatory compliance, protect client privacy at every level, and maintain sustainable and responsible aviation practices." data-cn="我们坚持最严格的国际安全标准，确保全面的法规合规，在各个层面保护客户隐私，并维持可持续和负责任的航空实践。">We uphold the strictest international safety standards, ensure full regulatory compliance, protect client privacy at every level, and maintain sustainable and responsible aviation practices.</p>
+    </div>
+  </section>
+</div><!-- END page-about -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: SERVICES OVERVIEW
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-services">
+  <div class="page-header">
+    <div class="section-label" data-en="Our Services" data-cn="我们的服务">Our Services</div>
+    <h1 class="section-title" data-en="Integrated Aviation Solutions" data-cn="综合航空解决方案">Integrated Aviation Solutions</h1>
+    <p class="section-subtitle" data-en="At Azure Seas Limited, we offer a fully integrated suite of aviation and consultant services designed for private individuals, corporations, investors, and aviation operators." data-cn="碧海集团有限公司为私人客户、企业、投资者和航空运营商提供全面整合的航空和咨询服务。">At Azure Seas Limited, we offer a fully integrated suite of aviation and consultant services designed for private individuals, corporations, investors, and aviation operators.</p>
+  </div>
+
+  <section class="section" style="background:var(--navy);">
+    <div class="services-grid">
+      <div class="service-card reveal" onclick="navigateTo('charter')">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><path d="M5 35 L20 20 L35 25 L45 10" /><path d="M40 10 L45 10 L45 15" /></svg></div>
+        <h3 data-en="Private Jet Charter" data-cn="私人飞机包机">Private Jet Charter</h3>
+        <p data-en="On-demand, group, empty leg, VIP, and corporate executive charter worldwide." data-cn="全球按需、团体、空驶航段、贵宾及企业高管包机服务。">On-demand, group, empty leg, VIP, and corporate executive charter worldwide.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal" onclick="navigateTo('leasing')">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><rect x="5" y="15" width="40" height="25" rx="3" /><path d="M15 15 V10 H35 V15" /><path d="M25 22 V32" /><path d="M20 27 H30" /></svg></div>
+        <h3 data-en="Aircraft Leasing & Finance" data-cn="飞机租赁与融资">Aircraft Leasing & Finance</h3>
+        <p data-en="Dry, wet, and damp leasing; acquisition finance, refinancing, and asset solutions." data-cn="干租、湿租和半湿租；购置融资、再融资和资产解决方案。">Dry, wet, and damp leasing; acquisition finance, refinancing, and asset solutions.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal" onclick="navigateTo('consultancy')">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><path d="M10 40 V15 L25 5 L40 15 V40" /><rect x="18" y="25" width="14" height="15" /></svg></div>
+        <h3 data-en="Aviation Project Consultancy" data-cn="航空项目咨询">Aviation Project Consultancy</h3>
+        <p data-en="Feasibility, market entry, regulatory compliance, and operational strategy." data-cn="可行性研究、市场准入、法规合规和运营策略。">Feasibility, market entry, regulatory compliance, and operational strategy.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal" onclick="navigateTo('management')">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" /><path d="M25 12 V25 L35 30" /></svg></div>
+        <h3 data-en="Aircraft Management" data-cn="飞机管理与运营">Aircraft Management</h3>
+        <p data-en="Full operational, crew, maintenance, and asset management for aircraft owners." data-cn="为飞机所有者提供全面的运营、机组、维护和资产管理。">Full operational, crew, maintenance, and asset management for aircraft owners.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><circle cx="25" cy="15" r="8" /><path d="M10 40 C10 30 18 25 25 25 C32 25 40 30 40 40" /></svg></div>
+        <h3 data-en="Pilot Training" data-cn="飞行员培训">Pilot Training</h3>
+        <p data-en="Professional pilot training programs meeting the highest international standards." data-cn="符合最高国际标准的专业飞行员培训项目。">Professional pilot training programs meeting the highest international standards.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><path d="M10 38 L25 10 L40 38 Z" /><path d="M25 28 V32" /><circle cx="25" cy="35" r="1.5" fill="none"/></svg></div>
+        <h3 data-en="Maintenance Consultancy" data-cn="维护咨询">Maintenance Consultancy</h3>
+        <p data-en="Aircraft maintenance services consultancy for optimal fleet performance." data-cn="飞机维护服务咨询，实现最佳机队性能。">Aircraft maintenance services consultancy for optimal fleet performance.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+      <div class="service-card reveal" onclick="navigateTo('family-office')">
+        <div class="service-icon"><svg viewBox="0 0 50 50"><path d="M8 22 L25 8 L42 22" /><path d="M12 22 V42 H38 V22" /><path d="M20 42 V30 H30 V42" /></svg></div>
+        <h3 data-en="Family Office" data-cn="家族办公室">Family Office</h3>
+        <p data-en="Comprehensive family office services for ultra-high-net-worth families." data-cn="为超高净值家族提供全面的家族办公室服务。">Comprehensive family office services for ultra-high-net-worth families.</p>
+        <span class="learn-more" data-en="Learn More →" data-cn="了解更多 →">Learn More →</span>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:50px;color:var(--white-50);font-size:0.9rem;" class="reveal" data-en="Each solution is customized to meet your unique requirements, with dedicated support from initial inquiry to project completion." data-cn="每个解决方案都根据您的独特需求定制，从初次咨询到项目完成都有专属支持。">Each solution is customized to meet your unique requirements, with dedicated support from initial inquiry to project completion.</p>
+  </section>
+</div><!-- END page-services -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: PRIVATE JET CHARTER
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-charter">
+  <div class="page-header">
+    <div class="section-label" data-en="Service" data-cn="服务">Service</div>
+    <h1 class="section-title" data-en="Private Jet Charter Services" data-cn="私人飞机包机服务">Private Jet Charter Services</h1>
+    <p class="section-subtitle" data-en="Premium, on-demand private jet charter for every purpose: worldwide, on your schedule, with complete privacy." data-cn="为各种目的提供优质的按需私人飞机包机：全球范围、按您的日程、完全保密。">Premium, on-demand private jet charter for every purpose: worldwide, on your schedule, with complete privacy.</p>
+  </div>
+
+  <section class="section service-detail">
+    <div class="service-detail-grid reveal">
+      <div>
+        <div class="section-label" data-en="Charter Types" data-cn="包机类型">Charter Types</div>
+        <h2 class="section-title" data-en="Tailored Flight Solutions" data-cn="量身定制的飞行方案">Tailored Flight Solutions</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="On-Demand Private Charter" data-cn="按需私人包机">On-Demand Private Charter</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Empty Leg Flights" data-cn="空驶航段航班">Empty Leg Flights</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Group & Leisure Charter" data-cn="团体及休闲包机">Group & Leisure Charter</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Corporate Executive Charter" data-cn="企业高管包机">Corporate Executive Charter</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="VIP & Celebrity Charter" data-cn="贵宾及名人包机">VIP & Celebrity Charter</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Air Ambulance & Medical Evacuation" data-cn="空中救护及医疗转运">Air Ambulance & Medical Evacuation</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Client Experience" data-cn="客户体验">Client Experience</div>
+        <h2 class="section-title" data-en="Unmatched Service" data-cn="无与伦比的服务">Unmatched Service</h2>
+        <p style="color:var(--white-70);line-height:1.8;font-size:0.92rem;" data-en="24/7 global concierge, custom catering, ground transport coordination, luxury cabin amenities, and strict confidentiality for every mission." data-cn="全天候全球礼宾服务、定制餐饮、地面交通协调、豪华客舱设施，以及每次任务的严格保密。">24/7 global concierge, custom catering, ground transport coordination, luxury cabin amenities, and strict confidentiality for every mission.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section process-section">
+    <div style="text-align:center;" class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Our Charter Process" data-cn="我们的包机流程">Our Charter Process</div>
+      <h2 class="section-title" style="text-align:center;" data-en="From Inquiry to Arrival" data-cn="从咨询到抵达">From Inquiry to Arrival</h2>
+    </div>
+    <div class="process-steps reveal">
+      <div class="process-step"><div class="step-number">1</div><h4 data-en="Initial Inquiry & Requirements" data-cn="初始咨询与需求">Initial Inquiry & Requirements</h4></div>
+      <div class="process-step"><div class="step-number">2</div><h4 data-en="Custom Quote & Aircraft Selection" data-cn="定制报价与选机">Custom Quote & Aircraft Selection</h4></div>
+      <div class="process-step"><div class="step-number">3</div><h4 data-en="Personalized Journey Planning" data-cn="个性化行程规划">Personalized Journey Planning</h4></div>
+      <div class="process-step"><div class="step-number">4</div><h4 data-en="Seamless Flight Execution" data-cn="无缝飞行执行">Seamless Flight Execution</h4></div>
+      <div class="process-step"><div class="step-number">5</div><h4 data-en="Post-Flight Support" data-cn="飞行后支持">Post-Flight Support</h4></div>
+    </div>
+  </section>
+
+  <section class="service-cta-section">
+    <button class="btn-primary" data-en="Request a Charter Quote" data-cn="请求包机报价" onclick="navigateTo('contact')">Request a Charter Quote</button>
+    <button class="btn-outline" data-en="View Empty Legs" data-cn="查看空驶航段" onclick="navigateTo('fleet')">View Empty Legs</button>
+  </section>
+</div><!-- END page-charter -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: AIRCRAFT LEASING & FINANCE
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-leasing">
+  <div class="page-header">
+    <div class="section-label" data-en="Service" data-cn="服务">Service</div>
+    <h1 class="section-title" data-en="Aircraft Leasing & Finance" data-cn="飞机租赁与融资">Aircraft Leasing & Finance</h1>
+    <p class="section-subtitle" data-en="Flexible, cost-effective leasing and tailored financial solutions for corporate clients, aircraft operators, and investors." data-cn="为企业客户、飞机运营商和投资者提供灵活、经济高效的租赁和量身定制的金融解决方案。">Flexible, cost-effective leasing and tailored financial solutions for corporate clients, aircraft operators, and investors.</p>
+  </div>
+
+  <section class="section service-detail">
+    <div class="service-detail-grid reveal">
+      <div>
+        <div class="section-label" data-en="Leasing Solutions" data-cn="租赁方案">Leasing Solutions</div>
+        <h2 class="section-title" data-en="Flexible Leasing" data-cn="灵活租赁">Flexible Leasing</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Dry Leasing" data-cn="干租">Dry Leasing</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Wet Leasing" data-cn="湿租">Wet Leasing</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Damp Leasing" data-cn="半湿租">Damp Leasing</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Short-Term & Long-Term Corporate Leasing" data-cn="短期和长期企业租赁">Short-Term & Long-Term Corporate Leasing</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Commercial & Private Aircraft Leasing" data-cn="商业及私人飞机租赁">Commercial & Private Aircraft Leasing</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Aviation Finance" data-cn="航空融资">Aviation Finance</div>
+        <h2 class="section-title" data-en="Structured Finance" data-cn="结构化融资">Structured Finance</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Aircraft Acquisition Finance" data-cn="飞机购置融资">Aircraft Acquisition Finance</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Lease Financing & Structuring" data-cn="租赁融资与结构化">Lease Financing & Structuring</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Refinancing & Restructuring" data-cn="再融资与重组">Refinancing & Restructuring</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Asset-Based Finance" data-cn="资产融资">Asset-Based Finance</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Investor Aviation Finance Solutions" data-cn="投资者航空融资方案">Investor Aviation Finance Solutions</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--navy-deep);text-align:center;">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Eligible Aircraft" data-cn="适用机型">Eligible Aircraft</div>
+      <h2 class="section-title" data-en="Aircraft Categories" data-cn="飞机类别">Aircraft Categories</h2>
+      <p style="color:var(--white-70);font-size:0.95rem;" data-en="Light jets, midsize jets, heavy jets, VIP airliners, and corporate turboprops." data-cn="轻型喷气机、中型喷气机、重型喷气机、VIP客机和企业涡桨飞机。">Light jets, midsize jets, heavy jets, VIP airliners, and corporate turboprops.</p>
+    </div>
+  </section>
+
+  <section class="service-cta-section">
+    <button class="btn-primary" data-en="Speak to a Leasing & Finance Expert" data-cn="咨询租赁与融资专家" onclick="navigateTo('contact')">Speak to a Leasing & Finance Expert</button>
+  </section>
+</div><!-- END page-leasing -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: PROJECT CONSULTANCY
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-consultancy">
+  <div class="page-header">
+    <div class="section-label" data-en="Service" data-cn="服务">Service</div>
+    <h1 class="section-title" data-en="Project Consultancy" data-cn="项目咨询">Project Consultancy</h1>
+    <p class="section-subtitle" data-en="Professional advisory services for investors, new operators, corporate clients, and aircraft owners." data-cn="为投资者、新运营商、企业客户和飞机所有者提供专业咨询服务。">Professional advisory services for investors, new operators, corporate clients, and aircraft owners.</p>
+  </div>
+
+  <section class="section service-detail">
+    <div class="service-detail-grid reveal">
+      <div>
+        <div class="section-label" data-en="Consultancy Services" data-cn="咨询服务">Consultancy Services</div>
+        <h2 class="section-title" data-en="Expert Advisory" data-cn="专家顾问">Expert Advisory</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Aviation Project Feasibility Studies" data-cn="航空项目可行性研究">Aviation Project Feasibility Studies</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Market Entry & Business Strategy" data-cn="市场准入与商业战略">Market Entry & Business Strategy</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Aircraft Acquisition Advisory" data-cn="飞机购置咨询">Aircraft Acquisition Advisory</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Regulatory Compliance Support" data-cn="法规合规支持">Regulatory Compliance Support</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Operational Setup & Management Consulting" data-cn="运营设置与管理咨询">Operational Setup & Management Consulting</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Risk Assessment & Mitigation" data-cn="风险评估与缓解">Risk Assessment & Mitigation</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Our Approach" data-cn="我们的方法">Our Approach</div>
+        <h2 class="section-title" data-en="Strategic Excellence" data-cn="战略卓越">Strategic Excellence</h2>
+        <p style="color:var(--white-70);line-height:1.8;font-size:0.92rem;" data-en="We combine global market intelligence, regulatory expertise, and practical industry experience to deliver clear, actionable, and commercially viable solutions." data-cn="我们结合全球市场情报、法规专业知识和实际行业经验，提供清晰、可操作和商业可行的解决方案。">We combine global market intelligence, regulatory expertise, and practical industry experience to deliver clear, actionable, and commercially viable solutions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-cta-section">
+    <button class="btn-primary" data-en="Book a Consultation Session" data-cn="预约咨询" onclick="navigateTo('contact')">Book a Consultation Session</button>
+  </section>
+</div><!-- END page-consultancy -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: AIRCRAFT MANAGEMENT
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-management">
+  <div class="page-header">
+    <div class="section-label" data-en="Service" data-cn="服务">Service</div>
+    <h1 class="section-title" data-en="Aircraft Management & Operational Services" data-cn="飞机管理与运营服务">Aircraft Management & Operational Services</h1>
+    <p class="section-subtitle" data-en="Complete, hassle-free management for private and corporate aircraft owners." data-cn="为私人和企业飞机所有者提供完整、无忧的管理服务。">Complete, hassle-free management for private and corporate aircraft owners.</p>
+  </div>
+
+  <section class="section service-detail">
+    <div class="service-detail-grid reveal">
+      <div>
+        <div class="section-label" data-en="Management Solutions" data-cn="管理方案">Management Solutions</div>
+        <h2 class="section-title" data-en="Complete Solutions" data-cn="完整方案">Complete Solutions</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Full Operational Management" data-cn="全面运营管理">Full Operational Management</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Crew Recruitment, Training & Scheduling" data-cn="机组招聘、培训与调度">Crew Recruitment, Training & Scheduling</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Aircraft Maintenance Planning & Compliance" data-cn="飞机维护规划与合规">Aircraft Maintenance Planning & Compliance</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Regulatory & Safety Administration" data-cn="法规与安全管理">Regulatory & Safety Administration</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Fuel, Logistics & Ground Handling" data-cn="燃油、物流与地面处理">Fuel, Logistics & Ground Handling</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Aircraft Asset Management & Valuation" data-cn="飞机资产管理与估值">Aircraft Asset Management & Valuation</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Corporate Flight Department Outsourcing" data-cn="企业飞行部门外包">Corporate Flight Department Outsourcing</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Benefits" data-cn="优势">Benefits</div>
+        <h2 class="section-title" data-en="Owner Benefits" data-cn="所有者权益">Owner Benefits</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Reduced operational costs" data-cn="降低运营成本">Reduced operational costs</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Full regulatory compliance" data-cn="全面法规合规">Full regulatory compliance</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Professional crew and maintenance" data-cn="专业机组和维护">Professional crew and maintenance</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Hassle-free ownership experience" data-cn="无忧的飞机所有权体验">Hassle-free ownership experience</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Maximized asset value" data-cn="资产价值最大化">Maximized asset value</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-cta-section">
+    <button class="btn-primary" data-en="Inquire About Management Solutions" data-cn="咨询管理方案" onclick="navigateTo('contact')">Inquire About Management Solutions</button>
+  </section>
+</div><!-- END page-management -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: FAMILY OFFICE
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-family-office">
+  <div class="page-header">
+    <div class="section-label" data-en="Service" data-cn="服务">Service</div>
+    <h1 class="section-title" data-en="Family Office Services" data-cn="家族办公室服务">Family Office Services</h1>
+    <p class="section-subtitle" data-en="Comprehensive family office services designed to meet the unique financial needs of ultra-high-net-worth families." data-cn="为超高净值家族的独特金融需求设计的综合家族办公室服务。">Comprehensive family office services designed to meet the unique financial needs of ultra-high-net-worth families.</p>
+  </div>
+
+  <section class="section service-detail">
+    <div class="service-detail-grid reveal">
+      <div>
+        <div class="section-label" data-en="Our Services" data-cn="我们的服务">Our Services</div>
+        <h2 class="section-title" data-en="Personalized Solutions" data-cn="个性化方案">Personalized Solutions</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Investment Management" data-cn="投资管理">Investment Management</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Financial Planning" data-cn="财务规划">Financial Planning</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Tax and Estate Planning" data-cn="税务和遗产规划">Tax and Estate Planning</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Philanthropy Management" data-cn="慈善管理">Philanthropy Management</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Administration Support" data-cn="行政支持">Administration Support</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Our Commitment" data-cn="我们的承诺">Our Commitment</div>
+        <h2 class="section-title" data-en="Dedicated Team" data-cn="专属团队">Dedicated Team</h2>
+        <p style="color:var(--white-70);line-height:1.8;font-size:0.92rem;" data-en="We specialize in providing comprehensive family office services designed to meet the unique financial needs of ultra-high-net-worth families. Our dedicated team offers a range of personalized solutions to protect, grow, and manage your family's wealth across generations." data-cn="我们专注于提供全面的家族办公室服务，旨在满足超高净值家族的独特金融需求。我们的专属团队提供一系列个性化解决方案，跨代保护、增长和管理您家族的财富。">We specialize in providing comprehensive family office services designed to meet the unique financial needs of ultra-high-net-worth families. Our dedicated team offers a range of personalized solutions to protect, grow, and manage your family's wealth across generations.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="service-cta-section">
+    <button class="btn-primary" data-en="Schedule a Consultation" data-cn="预约咨询" onclick="navigateTo('contact')">Schedule a Consultation</button>
+  </section>
+</div><!-- END page-family-office -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: FLEET
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-fleet">
+  <div class="page-header">
+    <div class="section-label" data-en="Our Fleet" data-cn="我们的机队">Our Fleet</div>
+    <h1 class="section-title" data-en="Private Jet Fleet" data-cn="私人飞机机队">Private Jet Fleet</h1>
+    <p class="section-subtitle" data-en="Browse our curated selection of modern, well-maintained private aircraft available for charter worldwide. Filter by size, range, capacity, and amenities." data-cn="浏览我们精选的现代化、维护良好的私人飞机，可在全球范围内租用。按大小、航程、容量和设施筛选。">Browse our curated selection of modern, well-maintained private aircraft available for charter worldwide. Filter by size, range, capacity, and amenities.</p>
+  </div>
+
+  <section class="section fleet-section">
+    <div class="fleet-categories reveal">
+      <div class="fleet-card">
+        <div class="fleet-card-img"></div>
+        <div class="fleet-card-body">
+          <h3 data-en="Light Jets" data-cn="轻型喷气机">Light Jets</h3>
+          <div class="fleet-specs">
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span data-en="4-8 pax" data-cn="4-8人">4-8 pax</span></div>
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span data-en="Up to 2,500 nm" data-cn="最远2,500海里">Up to 2,500 nm</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-card-img"></div>
+        <div class="fleet-card-body">
+          <h3 data-en="Midsize Jets" data-cn="中型喷气机">Midsize Jets</h3>
+          <div class="fleet-specs">
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span data-en="6-10 pax" data-cn="6-10人">6-10 pax</span></div>
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span data-en="Up to 3,500 nm" data-cn="最远3,500海里">Up to 3,500 nm</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-card-img"></div>
+        <div class="fleet-card-body">
+          <h3 data-en="Super Midsize Jets" data-cn="超中型喷气机">Super Midsize Jets</h3>
+          <div class="fleet-specs">
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span data-en="8-12 pax" data-cn="8-12人">8-12 pax</span></div>
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span data-en="Up to 5,000 nm" data-cn="最远5,000海里">Up to 5,000 nm</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="fleet-card">
+        <div class="fleet-card-img"></div>
+        <div class="fleet-card-body">
+          <h3 data-en="Heavy / Long-Range Jets" data-cn="重型/远程喷气机">Heavy / Long-Range Jets</h3>
+          <div class="fleet-specs">
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span data-en="10-19 pax" data-cn="10-19人">10-19 pax</span></div>
+            <div class="fleet-spec"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg><span data-en="Up to 7,500+ nm" data-cn="最远7,500+海里">Up to 7,500+ nm</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:60px;" class="reveal">
+      <div class="section-label" style="justify-content:center;" data-en="Empty Leg Flights" data-cn="空驶航段航班">Empty Leg Flights</div>
+      <h2 class="section-title" data-en="Premium Travel at Reduced Rates" data-cn="以优惠价格享受豪华飞行">Premium Travel at Reduced Rates</h2>
+      <p style="color:var(--white-70);font-size:0.92rem;max-width:600px;margin:0 auto 30px;" data-en="Exclusive, cost-effective empty leg opportunities updated regularly. Enjoy premium travel at reduced rates." data-cn="定期更新的独家、经济实惠的空驶航段机会。以优惠价格享受豪华飞行。">Exclusive, cost-effective empty leg opportunities updated regularly. Enjoy premium travel at reduced rates.</p>
+      <button class="btn-primary" data-en="Check Availability" data-cn="查询可用性" onclick="navigateTo('contact')">Check Availability</button>
+      <button class="btn-outline" style="margin-left:15px;" data-en="Book a Jet" data-cn="预订飞机" onclick="navigateTo('contact')">Book a Jet</button>
+    </div>
+  </section>
+</div><!-- END page-fleet -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: CLIENT CASES & TESTIMONIALS
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-cases">
+  <div class="page-header">
+    <div class="section-label" data-en="Clients" data-cn="客户">Clients</div>
+    <h1 class="section-title" data-en="Client Cases & Testimonials" data-cn="客户案例与评价">Client Cases & Testimonials</h1>
+  </div>
+
+  <section class="section" style="background:var(--navy);">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Client Segments" data-cn="客户群体">Client Segments</div>
+      <h2 class="section-title" data-en="Who We Serve" data-cn="我们的服务对象">Who We Serve</h2>
+    </div>
+    <div class="highlights-tags reveal" style="margin-top:30px;">
+      <div class="highlight-tag" data-en="High-Net-Worth Individuals" data-cn="高净值个人">High-Net-Worth Individuals</div>
+      <div class="highlight-tag" data-en="Multinational Corporations" data-cn="跨国企业">Multinational Corporations</div>
+      <div class="highlight-tag" data-en="VIP & Celebrity Clients" data-cn="贵宾及名人客户">VIP & Celebrity Clients</div>
+      <div class="highlight-tag" data-en="Government & Non-Profit" data-cn="政府与非营利机构">Government & Non-Profit</div>
+      <div class="highlight-tag" data-en="Aviation Investors & Operators" data-cn="航空投资者与运营商">Aviation Investors & Operators</div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--navy-deep);">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Featured Case Studies" data-cn="精选案例研究">Featured Case Studies</div>
+      <h2 class="section-title" data-en="Success Stories" data-cn="成功故事">Success Stories</h2>
+    </div>
+    <div class="services-grid" style="margin-top:40px;">
+      <div class="service-card reveal">
+        <h3 data-en="Global Luxury Private Charter" data-cn="全球豪华私人包机">Global Luxury Private Charter</h3>
+        <p data-en="Seamless family travel across multiple continents with personalized service at every touchpoint." data-cn="无缝的跨多大洲家庭旅行，每个接触点都有个性化服务。">Seamless family travel across multiple continents with personalized service at every touchpoint.</p>
+      </div>
+      <div class="service-card reveal">
+        <h3 data-en="Corporate Aircraft Leasing" data-cn="企业飞机租赁">Corporate Aircraft Leasing</h3>
+        <p data-en="Long-term corporate aircraft leasing solution optimized for operational efficiency." data-cn="为运营效率优化的长期企业飞机租赁解决方案。">Long-term corporate aircraft leasing solution optimized for operational efficiency.</p>
+      </div>
+      <div class="service-card reveal">
+        <h3 data-en="Structured Finance" data-cn="结构化融资">Structured Finance</h3>
+        <p data-en="Tailored structured finance for aircraft acquisition with optimal tax and ownership structure." data-cn="为飞机购置提供量身定制的结构化融资，优化税务和所有权结构。">Tailored structured finance for aircraft acquisition with optimal tax and ownership structure.</p>
+      </div>
+      <div class="service-card reveal">
+        <h3 data-en="Regulatory Consultancy" data-cn="法规咨询">Regulatory Consultancy</h3>
+        <p data-en="Market entry and regulatory consultancy for new operator achieving all certifications." data-cn="为新运营商提供市场准入和法规咨询，获得所有认证。">Market entry and regulatory consultancy for new operator achieving all certifications.</p>
+      </div>
+      <div class="service-card reveal">
+        <h3 data-en="Full Aircraft Management" data-cn="全面飞机管理">Full Aircraft Management</h3>
+        <p data-en="End-to-end aircraft management for private owner ensuring maximum asset value." data-cn="为私人所有者提供端到端的飞机管理，确保资产价值最大化。">End-to-end aircraft management for private owner ensuring maximum asset value.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section testimonials-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Testimonials" data-cn="客户评价">Testimonials</div>
+      <h2 class="section-title" data-en="What Our Clients Say" data-cn="客户的评价">What Our Clients Say</h2>
+    </div>
+    <div class="testimonials-grid reveal" style="grid-template-columns:1fr;">
+      <div class="testimonial-card"><p data-en="Professional, discreet, and highly efficient – Azure Seas is our trusted partner for all global aviation requirements." data-cn="专业、低调、高效——碧海集团是我们所有全球航空需求的可靠合作伙伴。">Professional, discreet, and highly efficient – Azure Seas is our trusted partner for all global aviation requirements.</p></div>
+      <div class="testimonial-card"><p data-en="A tailored leasing and finance solution that perfectly matched our business goals. Highly recommended." data-cn="完美匹配我们商业目标的量身定制租赁和融资方案。强烈推荐。">A tailored leasing and finance solution that perfectly matched our business goals. Highly recommended.</p></div>
+      <div class="testimonial-card"><p data-en="From start to finish, the consultancy process was clear, strategic, and results-driven." data-cn="从头到尾，咨询过程清晰、战略性强、以结果为导向。">From start to finish, the consultancy process was clear, strategic, and results-driven.</p></div>
+    </div>
+  </section>
+</div><!-- END page-cases -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: SAFETY & COMPLIANCE
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-safety">
+  <div class="page-header">
+    <div class="section-label" data-en="Safety & Compliance" data-cn="安全与合规">Safety & Compliance</div>
+    <h1 class="section-title" data-en="Your Safety is Our Priority" data-cn="您的安全是我们的首要任务">Your Safety is Our Priority</h1>
+  </div>
+
+  <section class="section standards-section">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="justify-content:center;" data-en="Safety Standards" data-cn="安全标准">Safety Standards</div>
+      <h2 class="section-title" data-en="International Certifications" data-cn="国际认证">International Certifications</h2>
+    </div>
+    <div class="standards-badges reveal">
+      <div class="standard-badge">FAA</div>
+      <div class="standard-badge">EASA</div>
+      <div class="standard-badge">ICAO</div>
+      <div class="standard-badge">ARGUS</div>
+      <div class="standard-badge">Wyvern</div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--navy-deep);">
+    <div class="service-detail-grid reveal" style="max-width:1200px;margin:0 auto;">
+      <div>
+        <div class="section-label" data-en="Safety Commitment" data-cn="安全承诺">Safety Commitment</div>
+        <h2 class="section-title" data-en="Rigorous Standards" data-cn="严格标准">Rigorous Standards</h2>
+        <div class="service-detail-list">
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Rigorous aircraft maintenance programs" data-cn="严格的飞机维护计划">Rigorous aircraft maintenance programs</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Highly trained, certified flight crew" data-cn="高度训练、持证飞行机组">Highly trained, certified flight crew</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Comprehensive operational safety protocols" data-cn="全面的运营安全协议">Comprehensive operational safety protocols</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Regular third-party safety audits" data-cn="定期第三方安全审计">Regular third-party safety audits</span></div>
+          <div class="service-detail-item"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span data-en="Continuous training and improvement" data-cn="持续培训和改进">Continuous training and improvement</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-en="Privacy & Compliance" data-cn="隐私与合规">Privacy & Compliance</div>
+        <h2 class="section-title" data-en="Absolute Confidentiality" data-cn="绝对保密">Absolute Confidentiality</h2>
+        <p style="color:var(--white-70);line-height:1.8;font-size:0.92rem;margin-bottom:20px;" data-en="We maintain strict confidentiality for all client data, travel details, and operations. Your privacy is guaranteed." data-cn="我们对所有客户数据、旅行详情和运营严格保密。您的隐私得到保障。">We maintain strict confidentiality for all client data, travel details, and operations. Your privacy is guaranteed.</p>
+        <p style="color:var(--white-70);line-height:1.8;font-size:0.92rem;" data-en="Full compliance with international aviation laws, anti-bribery policies, data protection regulations, and ethical business standards." data-cn="完全遵守国际航空法律、反贿赂政策、数据保护法规和商业道德标准。">Full compliance with international aviation laws, anti-bribery policies, data protection regulations, and ethical business standards.</p>
+      </div>
+    </div>
+  </section>
+</div><!-- END page-safety -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: NEWS & INSIGHTS
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-news">
+  <div class="page-header">
+    <div class="section-label" data-en="News & Insights" data-cn="新闻与洞察">News & Insights</div>
+    <h1 class="section-title" data-en="Latest Updates" data-cn="最新动态">Latest Updates</h1>
+  </div>
+
+  <section class="section news-section">
+    <div class="news-grid reveal">
+      <div class="news-card">
+        <div class="news-card-label" data-en="Industry News" data-cn="行业新闻">Industry News</div>
+        <h3 data-en="Private Aviation Updates" data-cn="私人航空动态">Private Aviation Updates</h3>
+        <p data-en="Latest updates in private aviation, aircraft leasing, finance, and global regulations." data-cn="私人航空、飞机租赁、融资和全球法规的最新动态。">Latest updates in private aviation, aircraft leasing, finance, and global regulations.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-card-label" data-en="Expert Insights" data-cn="专家洞察">Expert Insights</div>
+        <h3 data-en="Guides & Analysis" data-cn="指南与分析">Guides & Analysis</h3>
+        <p data-en="Guides to private jet charter, leasing basics, finance trends, aircraft ownership, and operational management." data-cn="私人飞机包机、租赁基础、融资趋势、飞机所有权和运营管理指南。">Guides to private jet charter, leasing basics, finance trends, aircraft ownership, and operational management.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-card-label" data-en="Company Updates" data-cn="公司动态">Company Updates</div>
+        <h3 data-en="Azure Seas News" data-cn="碧海集团新闻">Azure Seas News</h3>
+        <p data-en="New fleet additions, service enhancements, special offers, and global partnership announcements." data-cn="新机队引进、服务升级、特别优惠和全球合作伙伴公告。">New fleet additions, service enhancements, special offers, and global partnership announcements.</p>
+      </div>
+      <div class="news-card">
+        <div class="news-card-label" data-en="Press Releases" data-cn="新闻稿">Press Releases</div>
+        <h3 data-en="Official Announcements" data-cn="官方公告">Official Announcements</h3>
+        <p data-en="Official announcements, milestones, and industry recognitions." data-cn="官方公告、里程碑和行业认可。">Official announcements, milestones, and industry recognitions.</p>
+      </div>
+    </div>
+  </section>
+</div><!-- END page-news -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: CONTACT
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+  <div class="page-header">
+    <div class="section-label" data-en="Contact Us" data-cn="联系我们">Contact Us</div>
+    <h1 class="section-title" data-en="Get in Touch" data-cn="联系我们">Get in Touch</h1>
+    <p class="section-subtitle" data-en="We operate 24 hours a day, 365 days a year to support your global aviation needs." data-cn="我们全年365天、每天24小时运营，支持您的全球航空需求。">We operate 24 hours a day, 365 days a year to support your global aviation needs.</p>
+  </div>
+
+  <section class="section contact-section">
+    <div class="contact-grid reveal">
+      <div>
+        <div class="contact-info-block">
+          <h4 data-en="24/7 Global Hotline" data-cn="全天候全球热线">24/7 Global Hotline</h4>
+          <p><a href="tel:+85270400189" style="color:var(--gold);">+852 7040 0189</a></p>
+        </div>
+        <div class="contact-info-block">
+          <h4 data-en="General Inquiries" data-cn="一般咨询">General Inquiries</h4>
+          <p><a href="mailto:Azureseas@qq.com" style="color:var(--gold);">Azureseas@qq.com</a></p>
+        </div>
+        <div class="contact-info-block">
+          <h4 data-en="Head Office" data-cn="总部">Head Office</h4>
+          <p data-en="Room 4008, China Resources Building, No. 26 Harbour Road, Wan Chai, Hong Kong" data-cn="香港湾仔港湾道26号华润大厦4008室">Room 4008, China Resources Building, No. 26 Harbour Road, Wan Chai, Hong Kong</p>
+        </div>
+        <div class="contact-info-block">
+          <h4 data-en="Branch Office" data-cn="分支机构">Branch Office</h4>
+          <p data-en="Kazakhstan" data-cn="哈萨克斯坦">Kazakhstan</p>
+        </div>
+        <div class="contact-info-block">
+          <h4 data-en="Schedule a Consultation" data-cn="预约咨询">Schedule a Consultation</h4>
+          <p data-en="Book a private or virtual meeting with our aviation specialists." data-cn="与我们的航空专家预约私人或虚拟会议。">Book a private or virtual meeting with our aviation specialists.</p>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label data-en="Full Name" data-cn="全名">Full Name</label>
+            <input type="text" placeholder="">
+          </div>
+          <div class="form-group">
+            <label data-en="Email" data-cn="电子邮件">Email</label>
+            <input type="email" placeholder="">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-en="Phone" data-cn="电话">Phone</label>
+            <input type="tel" placeholder="">
+          </div>
+          <div class="form-group">
+            <label data-en="Inquiry Type" data-cn="咨询类型">Inquiry Type</label>
+            <select>
+              <option value="" data-en="Select..." data-cn="请选择...">Select...</option>
+              <option data-en="Private Jet Charter Quote" data-cn="私人飞机包机报价">Private Jet Charter Quote</option>
+              <option data-en="Aircraft Leasing & Finance" data-cn="飞机租赁与融资">Aircraft Leasing & Finance</option>
+              <option data-en="Consultancy & Management" data-cn="咨询与管理">Consultancy & Management</option>
+              <option data-en="General Contact" data-cn="一般联系">General Contact</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-en="Message" data-cn="消息">Message</label>
+          <textarea></textarea>
+        </div>
+        <button class="btn-primary" data-en="Send Inquiry" data-cn="发送咨询">Send Inquiry</button>
+      </div>
+    </div>
+  </section>
+</div><!-- END page-contact -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     PAGE: LEGAL
+     ═══════════════════════════════════════════════════ -->
+<div class="page" id="page-privacy">
+  <div class="page-header">
+    <div class="section-label" data-en="Legal" data-cn="法律">Legal</div>
+    <h1 class="section-title" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</h1>
+  </div>
+  <section class="section legal-section">
+    <div class="legal-content reveal">
+      <p data-en="We protect your personal data in compliance with global data protection regulations. All information is collected lawfully, stored securely, and never shared without consent." data-cn="我们按照全球数据保护法规保护您的个人数据。所有信息均合法收集、安全存储，未经同意绝不共享。">We protect your personal data in compliance with global data protection regulations. All information is collected lawfully, stored securely, and never shared without consent.</p>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-terms">
+  <div class="page-header">
+    <div class="section-label" data-en="Legal" data-cn="法律">Legal</div>
+    <h1 class="section-title" data-en="Terms of Service" data-cn="服务条款">Terms of Service</h1>
+  </div>
+  <section class="section legal-section">
+    <div class="legal-content reveal">
+      <p data-en="Terms governing charter, leasing, finance, consultancy, and management services, including booking conditions, liabilities, and client responsibilities." data-cn="管理包机、租赁、融资、咨询和管理服务的条款，包括预订条件、责任和客户义务。">Terms governing charter, leasing, finance, consultancy, and management services, including booking conditions, liabilities, and client responsibilities.</p>
+    </div>
+  </section>
+</div>
+
+<div class="page" id="page-cookies">
+  <div class="page-header">
+    <div class="section-label" data-en="Legal" data-cn="法律">Legal</div>
+    <h1 class="section-title" data-en="Cookie Policy" data-cn="Cookie政策">Cookie Policy</h1>
+  </div>
+  <section class="section legal-section">
+    <div class="legal-content reveal">
+      <p data-en="This website uses cookies to improve user experience, analyze traffic, and deliver personalized content." data-cn="本网站使用Cookie来改善用户体验、分析流量和提供个性化内容。">This website uses cookies to improve user experience, analyze traffic, and deliver personalized content.</p>
+    </div>
+  </section>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER (shared)
+     ═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-name" data-en="Azure Seas Limited" data-cn="碧海集团有限公司">Azure Seas Limited</div>
+      <div class="logo-tagline" data-en="Bespoke Global Aviation Solutions" data-cn="定制全球航空解决方案">Bespoke Global Aviation Solutions</div>
+      <p data-en="Delivering tailored private jet charter, aircraft leasing, consultancy, and management solutions worldwide." data-cn="在全球范围内提供量身定制的私人飞机包机、飞机租赁、咨询和管理解决方案。">Delivering tailored private jet charter, aircraft leasing, consultancy, and management solutions worldwide.</p>
+    </div>
+    <div class="footer-col">
+      <h5 data-en="Services" data-cn="服务">Services</h5>
+      <a onclick="navigateTo('charter')" data-en="Private Jet Charter" data-cn="私人飞机包机">Private Jet Charter</a>
+      <a onclick="navigateTo('leasing')" data-en="Leasing & Finance" data-cn="租赁与融资">Leasing & Finance</a>
+      <a onclick="navigateTo('consultancy')" data-en="Consultancy" data-cn="项目咨询">Consultancy</a>
+      <a onclick="navigateTo('management')" data-en="Management" data-cn="飞机管理">Management</a>
+      <a onclick="navigateTo('family-office')" data-en="Family Office" data-cn="家族办公室">Family Office</a>
+    </div>
+    <div class="footer-col">
+      <h5 data-en="Company" data-cn="公司">Company</h5>
+      <a onclick="navigateTo('about')" data-en="About Us" data-cn="关于我们">About Us</a>
+      <a onclick="navigateTo('fleet')" data-en="Our Fleet" data-cn="我们的机队">Our Fleet</a>
+      <a onclick="navigateTo('cases')" data-en="Client Cases" data-cn="客户案例">Client Cases</a>
+      <a onclick="navigateTo('safety')" data-en="Safety" data-cn="安全">Safety</a>
+      <a onclick="navigateTo('news')" data-en="News" data-cn="新闻">News</a>
+    </div>
+    <div class="footer-col">
+      <h5 data-en="Contact" data-cn="联系">Contact</h5>
+      <a href="tel:+85270400189">+852 7040 0189</a>
+      <a href="mailto:Azureseas@qq.com">Azureseas@qq.com</a>
+      <a data-en="Hong Kong (HQ)" data-cn="香港（总部）">Hong Kong (HQ)</a>
+      <a data-en="Kazakhstan" data-cn="哈萨克斯坦">Kazakhstan</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Azure Seas Limited. <span data-en="All rights reserved." data-cn="版权所有。">All rights reserved.</span></p>
+    <div class="footer-legal">
+      <a onclick="navigateTo('privacy')" data-en="Privacy Policy" data-cn="隐私政策">Privacy Policy</a>
+      <a onclick="navigateTo('terms')" data-en="Terms of Service" data-cn="服务条款">Terms of Service</a>
+      <a onclick="navigateTo('cookies')" data-en="Cookie Policy" data-cn="Cookie政策">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════ -->
+<script>
+// ── Language System ──
+let currentLang = 'en';
+
+function switchLang(lang) {
+  currentLang = lang;
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  document.getElementById('langCn').classList.toggle('active', lang === 'cn');
+  
+  document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      el.placeholder = text;
+    } else if (el.tagName === 'OPTION') {
+      el.textContent = text;
+    } else {
+      el.innerHTML = text;
+    }
+  });
+
+  document.documentElement.lang = lang === 'cn' ? 'zh' : 'en';
+}
+
+// ── Navigation System ──
+function navigateTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById('page-' + pageId);
+  if (page) {
+    page.classList.add('active');
+  }
+
+  // Update active nav
+  document.querySelectorAll('.nav-link[data-page]').forEach(link => {
+    link.classList.toggle('active', link.getAttribute('data-page') === pageId);
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Trigger reveals
+  setTimeout(initReveals, 100);
+}
+
+// ── Scroll Header ──
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── Mobile Menu ──
+function toggleMobile() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── Particles ──
+function createParticles() {
+  const container = document.getElementById('particles');
+  if (!container) return;
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (6 + Math.random() * 6) + 's';
+    container.appendChild(p);
+  }
+}
+
+// ── Scroll Reveal ──
+function initReveals() {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+}
+
+// ── Init ──
+document.addEventListener('DOMContentLoaded', () => {
+  createParticles();
+  initReveals();
+
+  // Dismiss loader after animation completes
+  setTimeout(() => {
+    const loader = document.getElementById('loader');
+    loader.classList.add('hidden');
+    setTimeout(() => loader.remove(), 800);
+  }, 3600);
+});
+</script>
+
 </body>
 </html>
